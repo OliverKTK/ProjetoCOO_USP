@@ -77,7 +77,7 @@ public class Main {
 //		double [] projectile_VX = new double[10];				// velocidades no eixo x
 //		double [] projectile_VY = new double[10];				// velocidades no eixo y
 
-		BaseProjectile p_projectile = new BaseProjectile();
+		PlayerProjectile p_projectile = new PlayerProjectile();
 		/* variáveis dos inimigos tipo 1 */
 
 		Enemy1 enemy1 = new Enemy1(9, currentTime+2000);

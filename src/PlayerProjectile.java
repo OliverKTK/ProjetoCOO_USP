@@ -1,11 +1,11 @@
-public class BaseProjectile {
+public class PlayerProjectile {
     private int [] state =  new int[10];
     private double [] X =  new double[10];
     private double [] Y =  new double[10];
     private double [] VX =  new double[10];
     private double [] VY =  new double[10];
 
-    public BaseProjectile() {}
+    public PlayerProjectile() {}
 
     public int[] getState() {
         return state;
