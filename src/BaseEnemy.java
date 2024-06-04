@@ -1,11 +1,11 @@
 public class BaseEnemy {
     private int [] state = new int[10];
-    private double [] X = new double[10];					// coordenadas x
-    private double [] Y = new double[10];					// coordenadas y
-    private double [] V = new double[10];					// velocidades
-    private double [] angle = new double[10];				// ângulos (indicam direção do movimento)
+    private double [] X = new double[10];
+    private double [] Y = new double[10];
+    private double [] V = new double[10];
+    private double [] angle = new double[10];
     private double [] RV = new double[10];
-    private double [] explosion_start = new double[10];		// instantes dos inícios das explosões
+    private double [] explosion_start = new double[10];
     private double [] explosion_end = new double[10];
     private double radius;
     private long nextEnemy;

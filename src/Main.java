@@ -68,65 +68,67 @@ public class Main {
 
 		/* variáveis do player */
 		
-		int player_state = ACTIVE;								// estado
-		double player_X = GameLib.WIDTH / 2;					// coordenada x
-		double player_Y = GameLib.HEIGHT * 0.90;				// coordenada y
-		double player_VX = 0.25;								// velocidade no eixo x
-		double player_VY = 0.25;								// velocidade no eixo y
-		double player_radius = 12.0;							// raio (tamanho aproximado do player)
-		double player_explosion_start = 0;						// instante do início da explosão
-		double player_explosion_end = 0;						// instante do final da explosão
-		long player_nextShot = currentTime;						// instante a partir do qual pode haver um próximo tiro
+//		int player_state = ACTIVE;								// estado
+//		double player_X = GameLib.WIDTH / 2;					// coordenada x
+//		double player_Y = GameLib.HEIGHT * 0.90;				// coordenada y
+//		double player_VX = 0.25;								// velocidade no eixo x
+//		double player_VY = 0.25;								// velocidade no eixo y
+//		double player_radius = 12.0;							// raio (tamanho aproximado do player)
+//		double player_explosion_start = 0;						// instante do início da explosão
+//		double player_explosion_end = 0;						// instante do final da explosão
+//		long player_nextShot = currentTime;						// instante a partir do qual pode haver um próximo tiro
 
 		Player player = new Player(ACTIVE, GameLib.WIDTH/2, GameLib.HEIGHT*0.9, 0.25, 0.25, 12, currentTime);
 		/* variáveis dos projéteis disparados pelo player */
 		
-		int [] projectile_states = new int[10];					// estados
-		double [] projectile_X = new double[10];				// coordenadas x
-		double [] projectile_Y = new double[10];				// coordenadas y
-		double [] projectile_VX = new double[10];				// velocidades no eixo x
-		double [] projectile_VY = new double[10];				// velocidades no eixo y
+//		int [] projectile_states = new int[10];					// estados
+//		double [] projectile_X = new double[10];				// coordenadas x
+//		double [] projectile_Y = new double[10];				// coordenadas y
+//		double [] projectile_VX = new double[10];				// velocidades no eixo x
+//		double [] projectile_VY = new double[10];				// velocidades no eixo y
 
+		BaseProjectile p_projectile = new BaseProjectile();
 		/* variáveis dos inimigos tipo 1 */
 		
-		int [] enemy1_states = new int[10];						// estados
-		double [] enemy1_X = new double[10];					// coordenadas x
-		double [] enemy1_Y = new double[10];					// coordenadas y
-		double [] enemy1_V = new double[10];					// velocidades
-		double [] enemy1_angle = new double[10];				// ângulos (indicam direção do movimento)
-		double [] enemy1_RV = new double[10];					// velocidades de rotação
-		double [] enemy1_explosion_start = new double[10];		// instantes dos inícios das explosões
-		double [] enemy1_explosion_end = new double[10];		// instantes dos finais da explosões
-		long [] enemy1_nextShoot = new long[10];				// instantes do próximo tiro
-		double enemy1_radius = 9.0;								// raio (tamanho do inimigo 1)
-		long nextEnemy1 = currentTime + 2000;					// instante em que um novo inimigo 1 deve aparecer
+//		int [] enemy1_states = new int[10];						// estados
+//		double [] enemy1_X = new double[10];					// coordenadas x
+//		double [] enemy1_Y = new double[10];					// coordenadas y
+//		double [] enemy1_V = new double[10];					// velocidades
+//		double [] enemy1_angle = new double[10];				// ângulos (indicam direção do movimento)
+//		double [] enemy1_RV = new double[10];					// velocidades de rotação
+//		double [] enemy1_explosion_start = new double[10];		// instantes dos inícios das explosões
+//		double [] enemy1_explosion_end = new double[10];		// instantes dos finais da explosões
+//		long [] enemy1_nextShoot = new long[10];				// instantes do próximo tiro
+//		double enemy1_radius = 9.0;								// raio (tamanho do inimigo 1)
+//		long nextEnemy1 = currentTime + 2000;					// instante em que um novo inimigo 1 deve aparecer
 
 		Enemy1 enemy1 = new Enemy1(9, currentTime+2000);
 		/* variáveis dos inimigos tipo 2 */
 		
-		int [] enemy2_states = new int[10];						// estados
-		double [] enemy2_X = new double[10];					// coordenadas x
-		double [] enemy2_Y = new double[10];					// coordenadas y
-		double [] enemy2_V = new double[10];					// velocidades
-		double [] enemy2_angle = new double[10];				// ângulos (indicam direção do movimento)
-		double [] enemy2_RV = new double[10];					// velocidades de rotação
-		double [] enemy2_explosion_start = new double[10];		// instantes dos inícios das explosões
-		double [] enemy2_explosion_end = new double[10];		// instantes dos finais das explosões
-		double enemy2_spawnX = GameLib.WIDTH * 0.20;			// coordenada x do próximo inimigo tipo 2 a aparecer
-		int enemy2_count = 0;									// contagem de inimigos tipo 2 (usada na "formação de voo")
-		double enemy2_radius = 12.0;							// raio (tamanho aproximado do inimigo 2)
-		long nextEnemy2 = currentTime + 7000;					// instante em que um novo inimigo 2 deve aparecer
+//		int [] enemy2_states = new int[10];						// estados
+//		double [] enemy2_X = new double[10];					// coordenadas x
+//		double [] enemy2_Y = new double[10];					// coordenadas y
+//		double [] enemy2_V = new double[10];					// velocidades
+//		double [] enemy2_angle = new double[10];				// ângulos (indicam direção do movimento)
+//		double [] enemy2_RV = new double[10];					// velocidades de rotação
+//		double [] enemy2_explosion_start = new double[10];		// instantes dos inícios das explosões
+//		double [] enemy2_explosion_end = new double[10];		// instantes dos finais das explosões
+//		double enemy2_spawnX = GameLib.WIDTH * 0.20;			// coordenada x do próximo inimigo tipo 2 a aparecer
+//		int enemy2_count = 0;									// contagem de inimigos tipo 2 (usada na "formação de voo")
+//		double enemy2_radius = 12.0;							// raio (tamanho aproximado do inimigo 2)
+//		long nextEnemy2 = currentTime + 7000;					// instante em que um novo inimigo 2 deve aparecer
 
 		Enemy2 enemy2 = new Enemy2(12, currentTime+7000, GameLib.WIDTH*0.2, 0);
 		/* variáveis dos projéteis lançados pelos inimigos (tanto tipo 1, quanto tipo 2) */
 		
-		int [] e_projectile_states = new int[200];				// estados
-		double [] e_projectile_X = new double[200];				// coordenadas x
-		double [] e_projectile_Y = new double[200];				// coordenadas y
-		double [] e_projectile_VX = new double[200];			// velocidade no eixo x
-		double [] e_projectile_VY = new double[200];			// velocidade no eixo y
-		double e_projectile_radius = 2.0;						// raio (tamanho dos projéteis inimigos)
-		
+//		int [] e_projectile_states = new int[200];				// estados
+//		double [] e_projectile_X = new double[200];				// coordenadas x
+//		double [] e_projectile_Y = new double[200];				// coordenadas y
+//		double [] e_projectile_VX = new double[200];			// velocidade no eixo x
+//		double [] e_projectile_VY = new double[200];			// velocidade no eixo y
+//		double e_projectile_radius = 2.0;						// raio (tamanho dos projéteis inimigos)
+
+		EnemyProjectile e_projectile = new EnemyProjectile(2);
 		/* estrelas que formam o fundo de primeiro plano */
 		
 		double [] background1_X = new double[20];
