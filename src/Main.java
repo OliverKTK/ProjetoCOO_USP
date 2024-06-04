@@ -265,7 +265,7 @@ public class Main {
 				if(p_projectile.getState()[i] == ACTIVE){
 					
 					/* verificando se projétil saiu da tela */
-					if(e_projectile.getY()[i] < 0) {
+					if(p_projectile.getY()[i] < 0) {
 						
 						p_projectile.setState(INACTIVE, i);
 					}

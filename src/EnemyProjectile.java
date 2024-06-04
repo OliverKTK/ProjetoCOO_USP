@@ -4,14 +4,12 @@ public class EnemyProjectile {
     private double [] Y =  new double[100];
     private double [] VX =  new double[100];
     private double [] VY =  new double[100];
-
-
     private double radius;
 
     public EnemyProjectile(double radius){
-
         this.radius = radius;
     }
+
     public int[] getState() {
         return state;
     }
