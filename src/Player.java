@@ -8,8 +8,11 @@ public class Player {
     private double explosion_start= 0;
     private double explosion_end= 0;
     private long nextShot;
+    private int life;
+    private long invinc_start = 0;
+    private long invinc_end = 0;
 
-    public Player(int state, double X, double Y, double VX, double VY, double radius, long nextShot) {
+    public Player(int state, double X, double Y, double VX, double VY, double radius, long nextShot, int life) {
         this.state = state;
         this.X = X;
         this.Y = Y;
@@ -17,6 +20,7 @@ public class Player {
         this.VY = VY;
         this.radius = radius;
         this.nextShot = nextShot;
+        this.life = life;
     }
 
     public int getState() {
@@ -80,5 +84,26 @@ public class Player {
     }
     public void setNextShot(long nextShot) {
         this.nextShot = nextShot;
+    }
+
+    public int getLife() {
+        return life;
+    }
+    public void setLife(int life) {
+        this.life = life;
+    }
+
+    public long getInvinc_start() {
+        return invinc_start;
+    }
+    public void setInvinc_start(long invinc_start) {
+        this.invinc_start = invinc_start;
+    }
+
+    public long getInvinc_end() {
+        return invinc_end;
+    }
+    public void setInvinc_end(long invinc_end) {
+        this.invinc_end = invinc_end;
     }
 }

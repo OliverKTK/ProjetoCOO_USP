@@ -68,7 +68,7 @@ public class Main {
 
 		/* variáveis do player */
 
-		Player player = new Player(ACTIVE, GameLib.WIDTH/2, GameLib.HEIGHT*0.9, 0.25, 0.25, 12, currentTime);
+		Player player = new Player(ACTIVE, GameLib.WIDTH/2, GameLib.HEIGHT*0.9, 0.25, 0.25, 12, currentTime, 2);
 		/* variáveis dos projéteis disparados pelo player */
 
 //		int [] projectile_states = new int[10];					// estados
@@ -177,10 +177,20 @@ public class Main {
 					double dist = Math.sqrt(dx * dx + dy * dy);
 					
 					if(dist < (player.getRadius() + e_projectile.getRadius()) * 0.8){
-						
-						player.setState(EXPLODING);
-						player.setExplosion_start(currentTime);
-						player.setExplosion_end(currentTime+2000);
+						if(player.getLife() > 0){
+							player.setLife(player.getLife()-1);
+							player.setState(INACTIVE);
+							player.setInvinc_start(currentTime);
+							player.setInvinc_end(currentTime+500);
+
+						}
+						else{
+							player.setLife(2);
+							player.setState(EXPLODING);
+							player.setExplosion_start(currentTime);
+							player.setExplosion_end(currentTime+2000);
+
+						}
 					}
 				}
 			
@@ -193,10 +203,19 @@ public class Main {
 					double dist = Math.sqrt(dx * dx + dy * dy);
 					
 					if(dist < (player.getRadius() + enemy1.getRadius()) * 0.8){
+						if(player.getLife() > 0){
+							player.setLife(player.getLife()-1);
+							player.setState(INACTIVE);
+							player.setInvinc_start(currentTime);
+							player.setInvinc_end(currentTime+500);
 
-						player.setState(EXPLODING);
-						player.setExplosion_start(currentTime);
-						player.setExplosion_end(currentTime+2000);;
+						}
+						else{
+							player.setLife(2);
+							player.setState(EXPLODING);
+							player.setExplosion_start(currentTime);
+							player.setExplosion_end(currentTime+2000);;
+						}
 					}
 				}
 				
@@ -207,10 +226,20 @@ public class Main {
 					double dist = Math.sqrt(dx * dx + dy * dy);
 					
 					if(dist < (player.getRadius() + enemy2.getRadius()) * 0.8){
-						
-						player.setState(EXPLODING);
-						player.setExplosion_start(currentTime);
-						player.setExplosion_end(currentTime+2000);
+						if(player.getLife() > 0){
+							player.setLife(player.getLife()-1);
+							player.setState(INACTIVE);
+							player.setInvinc_start(currentTime);
+							player.setInvinc_end(currentTime+500);
+
+						}
+						else{
+							player.setLife(2);
+							player.setState(EXPLODING);
+							player.setExplosion_start(currentTime);
+							player.setExplosion_end(currentTime+2000);
+						}
+
 					}
 				}
 			}
@@ -261,12 +290,12 @@ public class Main {
 			/* projeteis (player) */
 			
 			for(int i = 0; i < p_projectile.getState().length; i++){
-				
+
 				if(p_projectile.getState()[i] == ACTIVE){
-					
+
 					/* verificando se projétil saiu da tela */
 					if(p_projectile.getY()[i] < 0) {
-						
+
 						p_projectile.setState(INACTIVE, i);
 					}
 					else {
@@ -468,6 +497,15 @@ public class Main {
 			
 			/* Verificando se a explosão do player já acabou.         */
 			/* Ao final da explosão, o player volta a ser controlável */
+
+			if(player.getState() == INACTIVE){
+
+				if(currentTime > player.getInvinc_end()){
+
+					player.setState(ACTIVE);
+				}
+			}
+
 			if(player.getState() == EXPLODING){
 				
 				if(currentTime > player.getExplosion_end()){
@@ -480,7 +518,7 @@ public class Main {
 			/* Verificando entrada do usuário (teclado) */
 			/********************************************/
 			
-			if(player.getState() == ACTIVE){
+			if(player.getState() == ACTIVE || player.getState() == INACTIVE){
 				
 				if(GameLib.iskeyPressed(GameLib.KEY_UP)) player.setY(player.getY() - delta* player.getVY());
 				if(GameLib.iskeyPressed(GameLib.KEY_DOWN)) player.setY(player.getY() + delta* player.getVY());
