@@ -78,6 +78,7 @@ public class Main {
 		double player_explosion_end = 0;						// instante do final da explosão
 		long player_nextShot = currentTime;						// instante a partir do qual pode haver um próximo tiro
 
+		Player player = new Player(ACTIVE, GameLib.WIDTH/2, GameLib.HEIGHT*0.9, 0.25, 0.25, 12, currentTime);
 		/* variáveis dos projéteis disparados pelo player */
 		
 		int [] projectile_states = new int[10];					// estados
@@ -99,7 +100,8 @@ public class Main {
 		long [] enemy1_nextShoot = new long[10];				// instantes do próximo tiro
 		double enemy1_radius = 9.0;								// raio (tamanho do inimigo 1)
 		long nextEnemy1 = currentTime + 2000;					// instante em que um novo inimigo 1 deve aparecer
-		
+
+		Enemy1 enemy1 = new Enemy1(9, currentTime+2000);
 		/* variáveis dos inimigos tipo 2 */
 		
 		int [] enemy2_states = new int[10];						// estados
@@ -114,7 +116,8 @@ public class Main {
 		int enemy2_count = 0;									// contagem de inimigos tipo 2 (usada na "formação de voo")
 		double enemy2_radius = 12.0;							// raio (tamanho aproximado do inimigo 2)
 		long nextEnemy2 = currentTime + 7000;					// instante em que um novo inimigo 2 deve aparecer
-		
+
+		Enemy2 enemy2 = new Enemy2(12, currentTime+7000, GameLib.WIDTH*0.2, 0);
 		/* variáveis dos projéteis lançados pelos inimigos (tanto tipo 1, quanto tipo 2) */
 		
 		int [] e_projectile_states = new int[200];				// estados
