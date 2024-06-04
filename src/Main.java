@@ -496,7 +496,7 @@ public class Main {
 
 					player.setState(REVIVING);
 					player.setInvinc_start(currentTime);
-					player.setInvinc_end(currentTime+300);
+					player.setInvinc_end(currentTime+600);
 				}
 			}
 
@@ -516,7 +516,7 @@ public class Main {
 				if(GameLib.iskeyPressed(GameLib.KEY_DOWN)) player.setY(player.getY() + delta* player.getVY());
 				if(GameLib.iskeyPressed(GameLib.KEY_LEFT)) player.setX(player.getX() - delta* player.getVX());
 				if(GameLib.iskeyPressed(GameLib.KEY_RIGHT)) player.setX(player.getX() + delta* player.getVX());
-				if(GameLib.iskeyPressed(GameLib.KEY_CONTROL)) {
+				if(GameLib.iskeyPressed(GameLib.KEY_CONTROL) && player.getState() == ACTIVE) {
 					
 					if(currentTime > player.getNextShot()){
 						
@@ -600,17 +600,16 @@ public class Main {
 				double alpha = (currentTime - player.getExplosion_start()) / (player.getExplosion_end() - player.getExplosion_start());
 				GameLib.drawExplosion(player.getX(), player.getY(), alpha);
 			}
-			else{
+			else if(player.getState() == ACTIVE){
 				
 				GameLib.setColor(Color.BLUE);
 				GameLib.drawPlayer(player.getX(), player.getY(), player.getRadius());
 			}
-			if(player.getState() == INACTIVE){
+			else if(player.getState() == INACTIVE){
 				GameLib.setColor(Color.ORANGE);
 				GameLib.drawPlayer(player.getX(), player.getY(), player.getRadius());
 			}
-
-			if(player.getState() == REVIVING){
+			else if(player.getState() == REVIVING){
 				GameLib.setColor(Color.GREEN);
 				GameLib.drawPlayer(player.getX(), player.getY(), player.getRadius());
 			}
@@ -673,6 +672,26 @@ public class Main {
 					GameLib.drawDiamond(enemy2.getX()[i], enemy2.getY()[i], enemy2.getRadius());
 				}
 			}
+			/* desenhando o numero de vidas do player */
+
+			if(player.getLife() == MAX_LIFE){
+				GameLib.setColor(Color.green);
+				GameLib.drawCircle(GameLib.WIDTH - 30, GameLib.HEIGHT - 20, 7);
+				GameLib.drawCircle(GameLib.WIDTH - 50, GameLib.HEIGHT - 20, 7);
+				GameLib.drawCircle(GameLib.WIDTH - 70, GameLib.HEIGHT - 20, 7);
+			}
+			if(player.getLife() == MAX_LIFE - 1){
+				GameLib.setColor(Color.orange);
+				GameLib.drawCircle(GameLib.WIDTH - 30, GameLib.HEIGHT - 20, 7);
+				GameLib.drawCircle(GameLib.WIDTH - 50, GameLib.HEIGHT - 20, 7);
+			}
+			if(player.getLife() == MAX_LIFE - 2){
+				GameLib.setColor(Color.red);
+				GameLib.drawCircle(GameLib.WIDTH - 30, GameLib.HEIGHT - 20, 7);
+			}
+
+
+
 			
 			/* chamama a display() da classe GameLib atualiza o desenho exibido pela interface do jogo. */
 			
