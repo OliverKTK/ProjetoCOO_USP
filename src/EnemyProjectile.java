@@ -1,8 +1,8 @@
 public class EnemyProjectile extends PlayerProjectile{
     private double radius;
 
-    public EnemyProjectile(int size, double radius){
-        super(size);
+    public EnemyProjectile(int quantity, double radius){
+        super(quantity);
         this.radius = radius;
     }
 

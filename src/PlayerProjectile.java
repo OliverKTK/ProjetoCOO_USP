@@ -5,12 +5,18 @@ public class PlayerProjectile {
     private double [] VX;
     private double [] VY;
 
-    public PlayerProjectile(int size) {
-        this.state = new int[size];
-        this.X = new double[size];
-        this.Y = new double[size];
-        this.VX = new double[size];
-        this.VY = new double[size];
+    public PlayerProjectile(int qunatity) {
+        this.state = new int[qunatity];
+        this.X = new double[qunatity];
+        this.Y = new double[qunatity];
+        this.VX = new double[qunatity];
+        this.VY = new double[qunatity];
+    }
+
+    public void Initialize() {
+        for (int i = 0; i < state.length; i++) {
+            this.state[i] = 0;
+        }
     }
 
     public int[] getState() {

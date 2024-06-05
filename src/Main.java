@@ -45,9 +45,9 @@ public class Main {
 		int [] freeArray = { stateArray.length, stateArray.length, stateArray.length };
 		
 		for(i = 0, k = 0; i < stateArray.length && k < amount; i++){
-				
-			if(stateArray[i] == INACTIVE) { 
-				
+
+			if(stateArray[i] == INACTIVE) {
+
 				freeArray[k] = i; 
 				k++;
 			}
@@ -74,13 +74,13 @@ public class Main {
 		PlayerProjectile p_projectile = new PlayerProjectile(10);
 
 		/* variáveis dos inimigos tipo 1 */
-		Enemy1 enemy1 = new Enemy1(9, currentTime+2000);
+		Enemy1 enemy1 = new Enemy1(10,9, currentTime+2000);
 
 		/* variáveis dos inimigos tipo 2 */
-		Enemy2 enemy2 = new Enemy2(12, currentTime+7000, GameLib.WIDTH*0.2);
+		Enemy2 enemy2 = new Enemy2(10,12, currentTime+7000, GameLib.WIDTH*0.2);
 
 		/* variáveis dos projéteis lançados pelos inimigos (tanto tipo 1, quanto tipo 2) */
-		EnemyProjectile e_projectile = new EnemyProjectile(100, 2);
+		EnemyProjectile e_projectile = new EnemyProjectile(200, 2);
 
 		/* estrelas que formam o fundo de primeiro plano */
 		Background background1 = new Background(20, 0.07, 0.0);
@@ -89,12 +89,11 @@ public class Main {
 		Background background2 = new Background(50, 0.045, 0.0);
 		
 		/* inicializações */
-		
-		for(int i = 0; i < p_projectile.getState().length; i++) p_projectile.setState(INACTIVE, i);
-		for(int i = 0; i < e_projectile.getState().length; i++) e_projectile.setState(INACTIVE, i);
-		for(int i = 0; i < enemy1.getState().length; i++) enemy1.setState(INACTIVE, i);
-		for(int i = 0; i < enemy2.getState().length; i++) enemy2.setState(INACTIVE, i);
-		
+		p_projectile.Initialize();
+		e_projectile.Initialize();
+		enemy1.Initialize();
+		enemy2.Initialize();
+
 		for(int i = 0; i < background1.getX().length; i++){
 
 			background1.setX(Math.random() * GameLib.WIDTH, i);
@@ -614,7 +613,7 @@ public class Main {
 				if(enemy1.getState()[i] == EXPLODING){
 					
 					double alpha = (currentTime - enemy1.getExplosion_start()[i]) / (enemy1.getExplosion_end()[i] - enemy1.getExplosion_start()[i]);
-					GameLib.drawExplosion(enemy1.getX()[i], enemy1.getX()[i], alpha);
+					GameLib.drawExplosion(enemy1.getX()[i], enemy1.getY()[i], alpha);
 				}
 				
 				if(enemy1.getState()[i] == ACTIVE){

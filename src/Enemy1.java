@@ -1,8 +1,8 @@
 public class Enemy1 extends BaseEnemy{
     private long [] nextShoot= new long[10];
 
-    public Enemy1(double radius, long nextEnemy){
-        super(radius, nextEnemy);
+    public Enemy1(int quantity, double radius, long nextEnemy){
+        super(quantity, radius, nextEnemy);
     }
 
     public long[] getNextShoot() {

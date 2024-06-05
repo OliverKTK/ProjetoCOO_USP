@@ -1,19 +1,33 @@
 public class BaseEnemy {
-    private int [] state = new int[10];
-    private double [] X = new double[10];
-    private double [] Y = new double[10];
-    private double [] V = new double[10];
-    private double [] angle = new double[10];
-    private double [] RV = new double[10];
-    private double [] explosion_start = new double[10];
-    private double [] explosion_end = new double[10];
+    private int [] state;
+    private double [] X;
+    private double [] Y;
+    private double [] V;
+    private double [] angle;
+    private double [] RV;
+    private double [] explosion_start;
+    private double [] explosion_end;
     private double radius;
     private long nextEnemy;
 
-    public BaseEnemy(double radius, long nextEnemy){
+    public BaseEnemy(int quantity, double radius, long nextEnemy){
+        this.state = new int[quantity];
+        this.X = new double[quantity];
+        this.Y = new double[quantity];
+        this.V = new double[quantity];
+        this.angle = new double[quantity];
+        this.RV = new double[quantity];
+        this.explosion_start = new double[quantity];
+        this.explosion_end =  new double[quantity];
         this.radius = radius;
         this.nextEnemy = nextEnemy;
     }
+    public void Initialize(){
+        for(int i = 0; i < state.length; i++){
+            this.state[i] = 0;
+        }
+    }
+
     public int[] getState(){
         return state;
     }
