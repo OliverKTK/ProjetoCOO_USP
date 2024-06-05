@@ -69,9 +69,8 @@ public class Main {
 		long currentTime = System.currentTimeMillis();
 
 		/* variáveis do player */
-		Player player = new Player(ACTIVE, (double) GameLib.WIDTH /2, GameLib.HEIGHT*0.9, 0.25, 0.25, 12, currentTime, MAX_LIFE);
 
-		/* variáveis dos projéteis disparados pelo player */
+		Player player = new Player((double) GameLib.WIDTH /2, GameLib.HEIGHT*0.9, 0.25, 12, currentTime, MAX_LIFE);
 		PlayerProjectile p_projectile = new PlayerProjectile(10);
 
 		/* variáveis dos inimigos tipo 1 */
@@ -157,8 +156,7 @@ public class Main {
 						if(player.getLife() > 0){
 							player.setLife(player.getLife()-1);
 							player.setState(INACTIVE);
-							player.setInvinc_start(currentTime);
-							player.setInvinc_end(currentTime+500);
+							player.setInvinc(currentTime+500);
 
 						}
 						else{
@@ -184,8 +182,7 @@ public class Main {
 						if(player.getLife() > 0){
 							player.setLife(player.getLife()-1);
 							player.setState(INACTIVE);
-							player.setInvinc_start(currentTime);
-							player.setInvinc_end(currentTime+500);
+							player.setInvinc(currentTime+500);
 
 						}
 						else{
@@ -207,8 +204,7 @@ public class Main {
 						if(player.getLife() > 0){
 							player.setLife(player.getLife()-1);
 							player.setState(INACTIVE);
-							player.setInvinc_start(currentTime);
-							player.setInvinc_end(currentTime+500);
+							player.setInvinc(currentTime+500);
 
 						}
 						else{
@@ -476,7 +472,7 @@ public class Main {
 
 			if(player.getState() == INACTIVE){
 
-				if(currentTime > player.getInvinc_end()){
+				if(currentTime > player.getInvinc()){
 
 					player.setState(ACTIVE);
 				}
@@ -487,14 +483,13 @@ public class Main {
 				if(currentTime > player.getExplosion_end()){
 
 					player.setState(REVIVING);
-					player.setInvinc_start(currentTime);
-					player.setInvinc_end(currentTime+600);
+					player.setInvinc(currentTime+600);
 				}
 			}
 
 			if(player.getState() == REVIVING){
 
-				if(currentTime > player.getInvinc_end()){
+				if(currentTime > player.getInvinc()){
 
 					player.setState(ACTIVE);
 				}
