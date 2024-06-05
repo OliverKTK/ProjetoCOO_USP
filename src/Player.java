@@ -22,6 +22,55 @@ public class Player {
         this.life = life;
     }
 
+    public void colision(BaseEnemy enemy, long currentTime, int max_life){
+        for(int i = 0; i < enemy.getState().length; i++){
+
+            double dx = enemy.getX()[i] - getX();
+            double dy = enemy.getY()[i] - getY();
+            double dist = Math.sqrt(dx * dx + dy * dy);
+
+            if(dist < (getRadius() + enemy.getRadius()) * 0.8){
+                if(getLife() > 0){
+                    setLife(getLife()-1);
+                    setState(0);
+                    setInvinc(currentTime+500);
+
+                }
+                else{
+                    setLife(max_life);
+                    setState(2);
+                    setExplosion_start(currentTime);
+                    setExplosion_end(currentTime+2000);
+                }
+            }
+        }
+    }
+
+    public void colision(EnemyProjectile projectile, long currentTime, int max_life){
+        for(int i = 0; i < projectile.getState().length; i++){
+
+            double dx = projectile.getX()[i] - getX();
+            double dy = projectile.getY()[i] - getY();
+            double dist = Math.sqrt(dx * dx + dy * dy);
+
+            if(dist < (getRadius() + projectile.getRadius()) * 0.8){
+                if(getLife() > 0){
+                    setLife(getLife()-1);
+                    setState(0);
+                    setInvinc(currentTime+500);
+
+                }
+                else{
+                    setLife(max_life);
+                    setState(2);
+                    setExplosion_start(currentTime);
+                    setExplosion_end(currentTime+2000);
+                }
+            }
+        }
+    }
+
+
     public int getState() {
         return state;
     }
