@@ -497,12 +497,16 @@ public class Main {
 
             /* Verificando entrada do usuário (teclado) */
 
-            if(player.getState() == ACTIVE || player.getState() == REVIVING){
+            if(player.getState() != EXPLODING){
+				double alpha = 1;
+				if(player.getState() == INACTIVE){
+					alpha = 1.85;
+				}
 				
-				if(GameLib.iskeyPressed(GameLib.KEY_UP)) player.setY(player.getY() - delta* player.getVY());
-				if(GameLib.iskeyPressed(GameLib.KEY_DOWN)) player.setY(player.getY() + delta* player.getVY());
-				if(GameLib.iskeyPressed(GameLib.KEY_LEFT)) player.setX(player.getX() - delta* player.getVX());
-				if(GameLib.iskeyPressed(GameLib.KEY_RIGHT)) player.setX(player.getX() + delta* player.getVX());
+				if(GameLib.iskeyPressed(GameLib.KEY_UP)) player.setY(player.getY() - delta* player.getVY()/alpha);
+				if(GameLib.iskeyPressed(GameLib.KEY_DOWN)) player.setY(player.getY() + delta* player.getVY()/alpha);
+				if(GameLib.iskeyPressed(GameLib.KEY_LEFT)) player.setX(player.getX() - delta* player.getVX()/alpha);
+				if(GameLib.iskeyPressed(GameLib.KEY_RIGHT)) player.setX(player.getX() + delta* player.getVX()/alpha);
 				if(GameLib.iskeyPressed(GameLib.KEY_CONTROL) && player.getState() == ACTIVE) {
 					
 					if(currentTime > player.getNextShot()){
@@ -522,30 +526,7 @@ public class Main {
 				}
 			}
 
-			if(player.getState() == INACTIVE){
 
-				if(GameLib.iskeyPressed(GameLib.KEY_UP)) player.setY(player.getY() - delta* player.getVY()/1.85);
-				if(GameLib.iskeyPressed(GameLib.KEY_DOWN)) player.setY(player.getY() + delta* player.getVY()/1.85);
-				if(GameLib.iskeyPressed(GameLib.KEY_LEFT)) player.setX(player.getX() - delta* player.getVX()/1.85);
-				if(GameLib.iskeyPressed(GameLib.KEY_RIGHT)) player.setX(player.getX() + delta* player.getVX()/1.85);
-				if(GameLib.iskeyPressed(GameLib.KEY_CONTROL)) {
-
-					if(currentTime > player.getNextShot()){
-
-						int free = findFreeIndex(p_projectile.getState());
-
-						if(free < p_projectile.getState().length){
-
-							p_projectile.setX(player.getX(), free);
-							p_projectile.setY(player.getY()- 2*player.getRadius(), free);
-							p_projectile.setVX(0.0, free);
-							p_projectile.setVY(-1.0, free);
-							p_projectile.setState(1, free);
-							player.setNextShot(currentTime+ 100);
-						}
-					}
-				}
-			}
 			
 			if(GameLib.iskeyPressed(GameLib.KEY_ESCAPE)) running = false;
 			
