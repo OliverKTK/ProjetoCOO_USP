@@ -1,4 +1,4 @@
-public class EnemyProjectile extends PlayerProjectile{
+public class EnemyProjectile extends PlayerProjectile implements IEntity{
     private double radius;
 
     public EnemyProjectile(int quantity, double radius){

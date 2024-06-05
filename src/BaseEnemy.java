@@ -1,4 +1,4 @@
-public class BaseEnemy {
+public class BaseEnemy implements IEntity{
     private int [] state;
     private double [] X;
     private double [] Y;
