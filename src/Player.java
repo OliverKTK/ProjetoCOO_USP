@@ -29,18 +29,19 @@ public class Player {
             double dy = entity.getY()[i] - getY();
             double dist = Math.sqrt(dx * dx + dy * dy);
 
-            if(dist < (getRadius() + entity.getRadius()) * 0.8){
-                if(getLife() > 0){
-                    setLife(getLife()-1);
-                    setState(0);
-                    setInvinc(currentTime+500);
+            if (entity instanceof BaseEnemy || entity instanceof PlayerProjectile){
+                if(dist < (getRadius() + entity.getRadius()) * 0.8) {
+                    if (getLife() > 0) {
+                        setLife(getLife() - 1);
+                        setState(0);
+                        setInvinc(currentTime + 500);
 
-                }
-                else{
-                    setLife(max_life);
-                    setState(2);
-                    setExplosion_start(currentTime);
-                    setExplosion_end(currentTime+2000);
+                    } else {
+                        setLife(max_life);
+                        setState(2);
+                        setExplosion_start(currentTime);
+                        setExplosion_end(currentTime + 2000);
+                    }
                 }
             }
         }

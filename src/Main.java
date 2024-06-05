@@ -436,8 +436,7 @@ public class Main {
 				if(GameLib.iskeyPressed(GameLib.KEY_DOWN)) player.setY(player.getY() + delta* player.getVY()/alpha);
 				if(GameLib.iskeyPressed(GameLib.KEY_LEFT)) player.setX(player.getX() - delta* player.getVX()/alpha);
 				if(GameLib.iskeyPressed(GameLib.KEY_RIGHT)) player.setX(player.getX() + delta* player.getVX()/alpha);
-				if(GameLib.iskeyPressed(GameLib.KEY_CONTROL) && player.getState() == ACTIVE) {
-					
+				if(GameLib.iskeyPressed(GameLib.KEY_CONTROL)) {
 					if(currentTime > player.getNextShot()){
 						
 						int free = findFreeIndex(p_projectile.getState());
@@ -449,7 +448,8 @@ public class Main {
 							p_projectile.setVX(0.0, free);
 							p_projectile.setVY(-1.0, free);
 							p_projectile.setState(1, free);
-							player.setNextShot(currentTime+ 100);
+							player.setNextShot((long)(currentTime+ 100*
+									alpha));
 						}
 					}	
 				}
@@ -536,6 +536,15 @@ public class Main {
 				}
 			}
 
+			for(int i = 0; i < e2_projectile.getState().length; i++){
+
+				if(e2_projectile.getState()[i] == ACTIVE){
+
+					GameLib.setColor(Color.RED);
+					GameLib.drawCircle(e2_projectile.getX()[i], e2_projectile.getY()[i], e2_projectile.getRadius());
+				}
+			}
+
 			for(int i = 0; i < e3_projectile.getState().length; i++){
 
 				if(e3_projectile.getState()[i] == ACTIVE){
@@ -606,18 +615,18 @@ public class Main {
 
 			if(player.getLife() == MAX_LIFE){
 				GameLib.setColor(Color.green);
-				GameLib.drawCircle(GameLib.WIDTH - 30, GameLib.HEIGHT - 20, 7);
-				GameLib.drawCircle(GameLib.WIDTH - 50, GameLib.HEIGHT - 20, 7);
-				GameLib.drawCircle(GameLib.WIDTH - 70, GameLib.HEIGHT - 20, 7);
+				GameLib.drawDiamond(GameLib.WIDTH - 30, GameLib.HEIGHT - 30, 7);
+				GameLib.drawDiamond(GameLib.WIDTH - 40, GameLib.HEIGHT - 40, 7);
+				GameLib.drawDiamond(GameLib.WIDTH - 50, GameLib.HEIGHT - 30, 7);
 			}
 			else if(player.getLife() >= (2*MAX_LIFE)/3){
 				GameLib.setColor(Color.orange);
-				GameLib.drawCircle(GameLib.WIDTH - 30, GameLib.HEIGHT - 20, 7);
-				GameLib.drawCircle(GameLib.WIDTH - 50, GameLib.HEIGHT - 20, 7);
+				GameLib.drawDiamond(GameLib.WIDTH - 29, GameLib.HEIGHT - 20, 9);
+				GameLib.drawDiamond(GameLib.WIDTH - 51, GameLib.HEIGHT - 20, 9);
 			}
 			else if(player.getLife() >= MAX_LIFE/3){
 				GameLib.setColor(Color.red);
-				GameLib.drawCircle(GameLib.WIDTH - 30, GameLib.HEIGHT - 20, 7);
+				GameLib.drawDiamond(GameLib.WIDTH - 40, GameLib.HEIGHT - 30, 11);
 			}
 
 

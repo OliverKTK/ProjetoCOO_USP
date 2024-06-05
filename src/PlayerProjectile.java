@@ -29,9 +29,7 @@ public class PlayerProjectile {
                 double dist = Math.sqrt(dx * dx + dy * dy);
 
                 if (dist < enemy.getRadius()){
-                    if (enemy instanceof Enemy3) {
-                        Enemy3 enemy3 = (Enemy3) enemy;
-
+                    if (enemy instanceof Enemy3 enemy3) {
                         if (enemy3.getHealth()[i] > 0) {
                             enemy3.setHealth(enemy3.getHealth()[i] - 1, i);
                             enemy3.setState(3, i);
