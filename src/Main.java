@@ -72,30 +72,22 @@ public class Main {
 		Player player = new Player(ACTIVE, (double) GameLib.WIDTH /2, GameLib.HEIGHT*0.9, 0.25, 0.25, 12, currentTime, MAX_LIFE);
 
 		/* variáveis dos projéteis disparados pelo player */
-		PlayerProjectile p_projectile = new PlayerProjectile();
+		PlayerProjectile p_projectile = new PlayerProjectile(10);
 
 		/* variáveis dos inimigos tipo 1 */
 		Enemy1 enemy1 = new Enemy1(9, currentTime+2000);
 
 		/* variáveis dos inimigos tipo 2 */
-		Enemy2 enemy2 = new Enemy2(12, currentTime+7000, GameLib.WIDTH*0.2, 0);
+		Enemy2 enemy2 = new Enemy2(12, currentTime+7000, GameLib.WIDTH*0.2);
 
 		/* variáveis dos projéteis lançados pelos inimigos (tanto tipo 1, quanto tipo 2) */
-		EnemyProjectile e_projectile = new EnemyProjectile(2);
+		EnemyProjectile e_projectile = new EnemyProjectile(100, 2);
 
 		/* estrelas que formam o fundo de primeiro plano */
-		
-		double [] background1_X = new double[20];
-		double [] background1_Y = new double[20];
-		double background1_speed = 0.070;
-		double background1_count = 0.0;
+		Background background1 = new Background(20, 0.07, 0.0);
 		
 		/* estrelas que formam o fundo de segundo plano */
-		
-		double [] background2_X = new double[50];
-		double [] background2_Y = new double[50];
-		double background2_speed = 0.045;
-		double background2_count = 0.0;
+		Background background2 = new Background(50, 0.045, 0.0);
 		
 		/* inicializações */
 		
@@ -104,16 +96,16 @@ public class Main {
 		for(int i = 0; i < enemy1.getState().length; i++) enemy1.setState(INACTIVE, i);
 		for(int i = 0; i < enemy2.getState().length; i++) enemy2.setState(INACTIVE, i);
 		
-		for(int i = 0; i < background1_X.length; i++){
-			
-			background1_X[i] = Math.random() * GameLib.WIDTH;
-			background1_Y[i] = Math.random() * GameLib.HEIGHT;
+		for(int i = 0; i < background1.getX().length; i++){
+
+			background1.setX(Math.random() * GameLib.WIDTH, i);
+			background1.setY(Math.random() * GameLib.HEIGHT, i);
 		}
 		
-		for(int i = 0; i < background2_X.length; i++){
-			
-			background2_X[i] = Math.random() * GameLib.WIDTH;
-			background2_Y[i] = Math.random() * GameLib.HEIGHT;
+		for(int i = 0; i < background2.getX().length; i++){
+
+			background2.setX(Math.random() * GameLib.WIDTH, i);
+			background2.setY(Math.random() * GameLib.HEIGHT, i);
 		}
 						
 		/* iniciado interface gráfica */
@@ -575,21 +567,21 @@ public class Main {
             /* desenhando plano fundo distante */
 			
 			GameLib.setColor(Color.DARK_GRAY);
-			background2_count += background2_speed * delta;
+			background2.setCount(background2.getCount() + background2.getSpeed()*delta);
 			
-			for(int i = 0; i < background2_X.length; i++){
+			for(int i = 0; i < background2.getX().length; i++){
 				
-				GameLib.fillRect(background2_X[i], (background2_Y[i] + background2_count) % GameLib.HEIGHT, 2, 2);
+				GameLib.fillRect(background2.getX()[i], (background2.getY()[i] + background2.getCount()) % GameLib.HEIGHT, 2, 2);
 			}
 			
 			/* desenhando plano de fundo próximo */
 			
 			GameLib.setColor(Color.GRAY);
-			background1_count += background1_speed * delta;
+			background1.setCount(background1.getCount() + background1.getSpeed()*delta);
 			
-			for(int i = 0; i < background1_X.length; i++){
+			for(int i = 0; i < background1.getX().length; i++){
 				
-				GameLib.fillRect(background1_X[i], (background1_Y[i] + background1_count) % GameLib.HEIGHT, 3, 3);
+				GameLib.fillRect(background1.getX()[i], (background1.getY()[i] + background1.getCount()) % GameLib.HEIGHT, 3, 3);
 			}
 						
 			/* desenhando player */
@@ -672,7 +664,7 @@ public class Main {
 					GameLib.drawDiamond(enemy2.getX()[i], enemy2.getY()[i], enemy2.getRadius());
 				}
 			}
-			/* desenhando o numero de vidas do player */
+			/* desenhando o número de vidas do player */
 
 			if(player.getLife() == MAX_LIFE){
 				GameLib.setColor(Color.green);
@@ -680,12 +672,12 @@ public class Main {
 				GameLib.drawCircle(GameLib.WIDTH - 50, GameLib.HEIGHT - 20, 7);
 				GameLib.drawCircle(GameLib.WIDTH - 70, GameLib.HEIGHT - 20, 7);
 			}
-			if(player.getLife() == MAX_LIFE - 1){
+			else if(player.getLife() >= (2*MAX_LIFE)/3){
 				GameLib.setColor(Color.orange);
 				GameLib.drawCircle(GameLib.WIDTH - 30, GameLib.HEIGHT - 20, 7);
 				GameLib.drawCircle(GameLib.WIDTH - 50, GameLib.HEIGHT - 20, 7);
 			}
-			if(player.getLife() == MAX_LIFE - 2){
+			else if(player.getLife() >= MAX_LIFE/3){
 				GameLib.setColor(Color.red);
 				GameLib.drawCircle(GameLib.WIDTH - 30, GameLib.HEIGHT - 20, 7);
 			}

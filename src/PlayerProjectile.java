@@ -1,11 +1,17 @@
 public class PlayerProjectile {
-    private int [] state =  new int[10];
-    private double [] X =  new double[10];
-    private double [] Y =  new double[10];
-    private double [] VX =  new double[10];
-    private double [] VY =  new double[10];
+    private int [] state;
+    private double [] X;
+    private double [] Y;
+    private double [] VX;
+    private double [] VY;
 
-    public PlayerProjectile() {}
+    public PlayerProjectile(int size) {
+        this.state = new int[size];
+        this.X = new double[size];
+        this.Y = new double[size];
+        this.VX = new double[size];
+        this.VY = new double[size];
+    }
 
     public int[] getState() {
         return state;
