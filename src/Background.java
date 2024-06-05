@@ -11,6 +11,14 @@ public class Background {
         this.count = count;
     }
 
+    public void Initialize(double width, double height){
+        for(int i = 0; i < X.length; i++){
+            this.X[i] = Math.random() * width;
+            this.Y[i] = Math.random() * height;
+        }
+    }
+
+
     public double[] getX() {
         return X;
     }
