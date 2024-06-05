@@ -75,7 +75,7 @@ public class Main {
 		PlayerProjectile p_projectile = new PlayerProjectile(10);
 
 		/* variáveis dos inimigos tipo 1 */
-		BaseEnemy enemy1 = new BaseEnemy(10,9, currentTime+2000);
+		BaseIEnemy enemy1 = new BaseIEnemy(10,9, currentTime+2000);
 		EnemyProjectile e1_projectile = new EnemyProjectile(100, 2);
 
 		/* variáveis dos inimigos tipo 2 */
@@ -174,43 +174,7 @@ public class Main {
 			e3_projectile.outOfBounds(GameLib.HEIGHT, delta);
 
 			/* inimigos tipo 1 */
-			
-			for(int i = 0; i < enemy1.getState().length; i++){
-				if(enemy1.getState()[i] == EXPLODING){
-					if(currentTime > enemy1.getExplosion_end()[i]){
-
-						enemy1.setState(INACTIVE, i);
-					}
-				}
-				
-				if(enemy1.getState()[i] == ACTIVE){
-					/* verificando se inimigo saiu da tela */
-					if(enemy1.getY()[i] > GameLib.HEIGHT + 10) {
-
-						enemy1.setState(INACTIVE, i);
-					}
-					else {
-
-						enemy1.setX(enemy1.getX()[i] + enemy1.getV()[i] * Math.cos(enemy1.getAngle()[i]) * delta, i);
-						enemy1.setY(enemy1.getY()[i] + enemy1.getV()[i] * Math.sin(enemy1.getAngle()[i]) * delta * (-1.0), i);
-						enemy1.setAngle(enemy1.getAngle()[i] + enemy1.getRV()[i]*delta, i);
-						
-						if(currentTime > enemy1.getNextShoot()[i] && enemy1.getY()[i] < player.getY()){
-																							
-							int free = findFreeIndex(e1_projectile.getState());
-							if(free < e1_projectile.getState().length){
-
-								e1_projectile.setX(enemy1.getX()[i], free);
-								e1_projectile.setY(enemy1.getY()[i], free);
-								e1_projectile.setVX(Math.cos(enemy1.getAngle()[i]) * 0.45,free);
-								e1_projectile.setVY(Math.sin(enemy1.getAngle()[i]) * 0.45 * (-1.0),free);
-								e1_projectile.setState(1, free);
-								enemy1.setNextShoot((long) (currentTime + 200 + Math.random() * 500), i);
-							}
-						}
-					}
-				}
-			}
+			enemy1.behavior(player,e1_projectile, delta, findFreeIndex(e1_projectile.getState()), currentTime, GameLib.HEIGHT, GameLib.WIDTH);
 			
 			/* inimigos tipo 2 */
 			
@@ -282,88 +246,11 @@ public class Main {
 			}
 
 			/* inimigos tipo 3 */
+			enemy3.behavior(player,e3_projectile, delta, findFreeIndex(e3_projectile.getState()), currentTime, GameLib.HEIGHT, GameLib.WIDTH);
 
-			for(int i = 0; i < enemy3.getState().length; i++){
-
-				if(enemy3.getState()[i] == REVIVING){
-					if(currentTime > enemy3.getExplosion_end()[i]){
-						enemy3.setRadius(enemy3.getMax_radius()/1.5);
-						enemy3.setState(ACTIVE, i);
-					}
-				}
-
-				else if(enemy3.getState()[i] == EXPLODING){
-
-					if(currentTime > enemy3.getExplosion_end()[i]){
-
-						enemy3.setState(INACTIVE, i);
-						enemy3.setHealth(enemy3.getMaxHealth(), i);
-						enemy3.setRadius(enemy3.getMax_radius());
-					}
-				}
-
-				else if(enemy3.getState()[i] == ACTIVE){
-					if(enemy3.getY()[i] <  Math.random() * GameLib.HEIGHT * 0.25){
-						enemy3.setY(enemy3.getY()[i] + enemy3.getV()[i] * Math.sin(enemy3.getAngle()[i]) * delta * (-1.0), i);
-					}
-					enemy3.setX(enemy3.getX()[i] + enemy3.getV()[i] * Math.cos(enemy3.getAngle()[i]) * delta, i);
-					enemy3.setAngle(enemy3.getAngle()[i] + enemy3.getRV()[i]*delta, i);
-
-					if(currentTime > enemy3.getNextShoot()[i] && enemy3.getY()[i] < player.getY()){
-
-						double co = player.getX() - enemy3.getX()[i];
-						double ca = player.getY() - enemy3.getY()[i];
-						double hip = Math.sqrt(co*co + ca*ca);
-						int free = findFreeIndex(e3_projectile.getState());
-						if(free < e3_projectile.getState().length){
-
-							e3_projectile.setX(enemy3.getX()[i], free);
-							e3_projectile.setY(enemy3.getY()[i], free);
-							e3_projectile.setVX((co/hip) *0.4,free);
-							e3_projectile.setVY((ca/hip) *0.4,free);
-							e3_projectile.setState(1, free);
-
-							enemy3.setNextShoot((long) (currentTime + 1500 + Math.random() * 600), i);
-
-						}
-					}
-				}
-			}
-
-			/* verificando se novos inimigos (tipo 1) devem ser "lançados" */
+			/* verificando se novos inimigos devem ser "lançados" */
 			enemy1.newEnemy(currentTime, findFreeIndex(enemy1.getState()), 500, 500, 0);
-
-			/* verificando se novos inimigos (tipo 2) devem ser "lançados" */
-			
-			if(currentTime > enemy2.getNextEnemy()){
-				
-				int free = findFreeIndex(enemy2.getState());
-								
-				if(free < enemy2.getState().length){
-
-					enemy2.setX(enemy2.getSpawnX(), free);
-					enemy2.setY(-10.0, free);
-					enemy2.setV(0.42, free);
-					enemy2.setAngle((3*Math.PI)/2, free);
-					enemy2.setRV(0.0, free);
-					enemy2.setState(ACTIVE, free);
-
-					enemy2.setCount(enemy2.getCount()+1);
-					
-					if(enemy2.getCount() < 10){
-
-						enemy2.setNextEnemy(currentTime + 120);
-					}
-					else {
-
-						enemy2.setCount(0);
-						enemy2.setSpawnX(Math.random() > 0.5 ? GameLib.WIDTH * 0.2 : GameLib.WIDTH * 0.8);
-						enemy2.setNextEnemy((long) (currentTime + 3000 + Math.random() * 3000));
-					}
-				}
-			}
-
-			/* verificando se novos inimigos (tipo 3) devem ser "lançados" */
+			enemy2.newEnemy(currentTime, findFreeIndex(enemy2.getState()), 3000, 3000);
 			enemy3.newEnemy(currentTime, findFreeIndex(enemy3.getState()), 500, 4000, 2000);
 
 			/* Verificando mudanca de estado do player */

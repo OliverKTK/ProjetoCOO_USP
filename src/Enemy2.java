@@ -1,4 +1,4 @@
-public class Enemy2 extends BaseEnemy {
+public class Enemy2 extends BaseIEnemy implements IEnemyBehavior {
     private double spawnX;
     private int count;
 
@@ -6,6 +6,31 @@ public class Enemy2 extends BaseEnemy {
         super(quantity, radius, nextEnemy);
         this.spawnX = spawnX;
         this.count = 0;
+    }
+
+    public void newEnemy(long currentTime, int free, int spawnOffset, int random){
+        if(currentTime > getNextEnemy()){
+            if(free < getState().length){
+
+                setX(getSpawnX(), free);
+                setY(-10.0, free);
+                setV(0.42, free);
+                setAngle((3*Math.PI)/2, free);
+                setRV(0.0, free);
+                setState(1, free);
+
+                setCount(getCount()+1);
+
+                if(getCount() < 10){
+                    setNextEnemy(currentTime + 120);
+                }
+                else {
+                    setCount(0);
+                    setSpawnX(Math.random() > 0.5 ? GameLib.WIDTH * 0.2 : GameLib.WIDTH * 0.8);
+                    setNextEnemy((long) (currentTime + spawnOffset + Math.random() * random));
+                }
+            }
+        }
     }
 
     public double getSpawnX(){

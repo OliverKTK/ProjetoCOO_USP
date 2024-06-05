@@ -1,4 +1,4 @@
-public class BaseEnemy implements IEntity{
+public class BaseIEnemy implements IEntity, IEnemyBehavior {
     private int [] state;
     private double [] X;
     private double [] Y;
@@ -11,7 +11,7 @@ public class BaseEnemy implements IEntity{
     private long nextEnemy;
     private long [] nextShoot;
 
-    public BaseEnemy(int quantity, double radius, long nextEnemy){
+    public BaseIEnemy(int quantity, double radius, long nextEnemy){
         this.state = new int[quantity];
         this.X = new double[quantity];
         this.Y = new double[quantity];
@@ -42,6 +42,38 @@ public class BaseEnemy implements IEntity{
                 setState(1, free);
                 setNextShoot(currentTime + shootOffset, free);
                 setNextEnemy((long) (currentTime + spawnOffset + Math.random() * random));
+            }
+        }
+    }
+
+    public void behavior(Player player, PlayerProjectile e, long delta, int free, long currentTime, int height, int width){
+        for(int i = 0; i < state.length; i++){
+            if(state[i] == 2){
+                if(currentTime > getExplosion_end()[i]){
+                    setState(0, i);
+                }
+            }
+            else if(state[i] == 1){
+                if(getX()[i] < -10 || getX()[i] > width + 10 || getY()[i] > height + 10){
+                    setState(0, i);
+                }
+                else{
+                    setX(getX()[i]+ getV()[i] * Math.cos(getAngle()[i]) * delta, i);
+                    setY(getY()[i]+ getV()[i] * Math.sin(getAngle()[i]) * delta * (-1), i);
+                    setAngle(getAngle()[i] + getRV()[i]* delta, i);
+
+                    if(currentTime > getNextShoot()[i] && getY()[i] < player.getY()){
+                        if(free < e.getState().length){
+                            e.setX(getX()[i], free);
+                            e.setY(getY()[i], free);
+                            e.setVX(Math.cos(getAngle()[i]) * 0.45,free);
+                            e.setVY(Math.sin(getAngle()[i]) * 0.45 * (-1.0),free);
+                            e.setState(1, free);
+                            setNextShoot((long) (currentTime + 200 + Math.random() * 500), i);
+                        }
+                    }
+                }
+
             }
         }
     }

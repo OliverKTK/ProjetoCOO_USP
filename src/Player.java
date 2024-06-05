@@ -29,7 +29,7 @@ public class Player {
             double dy = entity.getY()[i] - getY();
             double dist = Math.sqrt(dx * dx + dy * dy);
 
-            if (entity instanceof BaseEnemy || entity instanceof PlayerProjectile){
+            if (entity instanceof BaseIEnemy || entity instanceof PlayerProjectile){
                 if(dist < (getRadius() + entity.getRadius()) * 0.8) {
                     if (getLife() > 0) {
                         setLife(getLife() - 1);
