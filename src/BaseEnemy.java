@@ -9,6 +9,7 @@ public class BaseEnemy implements IEntity{
     private double [] explosion_end;
     private double radius;
     private long nextEnemy;
+    private long [] nextShoot;
 
     public BaseEnemy(int quantity, double radius, long nextEnemy){
         this.state = new int[quantity];
@@ -21,10 +22,27 @@ public class BaseEnemy implements IEntity{
         this.explosion_end =  new double[quantity];
         this.radius = radius;
         this.nextEnemy = nextEnemy;
+        this.nextShoot = new long[quantity];
     }
     public void Initialize(){
         for(int i = 0; i < state.length; i++){
             this.state[i] = 0;
+        }
+    }
+
+    public void newEnemy(long currentTime, int free, int shootOffset, int spawnOffset, int random){
+        if(currentTime > getNextEnemy()){
+            if(free < getState().length) {
+
+                setX(Math.random() * (GameLib.WIDTH - 20.0) + 10.0, free);
+                setY(-10.0, free);
+                setV(0.20 + Math.random() * 0.15, free);
+                setAngle(3 * Math.PI / 2, free);
+                setRV(0, free);
+                setState(1, free);
+                setNextShoot(currentTime + shootOffset, free);
+                setNextEnemy((long) (currentTime + spawnOffset + Math.random() * random));
+            }
         }
     }
 
@@ -96,5 +114,12 @@ public class BaseEnemy implements IEntity{
     }
     public void setNextEnemy(long nextEnemy) {
         this.nextEnemy = nextEnemy;
+    }
+
+    public long[] getNextShoot() {
+        return nextShoot;
+    }
+    public void setNextShoot(long nextShoot, int i){
+        this.nextShoot[i] = nextShoot;
     }
 }

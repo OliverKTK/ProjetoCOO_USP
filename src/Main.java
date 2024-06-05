@@ -75,7 +75,7 @@ public class Main {
 		PlayerProjectile p_projectile = new PlayerProjectile(10);
 
 		/* variáveis dos inimigos tipo 1 */
-		Enemy1 enemy1 = new Enemy1(10,9, currentTime+2000);
+		BaseEnemy enemy1 = new BaseEnemy(10,9, currentTime+2000);
 		EnemyProjectile e1_projectile = new EnemyProjectile(100, 2);
 
 		/* variáveis dos inimigos tipo 2 */
@@ -83,7 +83,7 @@ public class Main {
 		EnemyProjectile e2_projectile = new EnemyProjectile(100, 2);
 
 		/* variáveis dos inimigos tipo 3 */
-		Enemy3 enemy3 = new Enemy3(10, 7, currentTime+10000, MAX_ENEMY_HEALTH);
+		Enemy3 enemy3 = new Enemy3(10, 10, currentTime+10000, MAX_ENEMY_HEALTH);
 		EnemyProjectile e3_projectile = new EnemyProjectile(100, 18);
 
 		/* estrelas que formam o fundo de primeiro plano */
@@ -159,9 +159,9 @@ public class Main {
 			/* colisões projeteis (player) - inimigos */
 
 			for(int k = 0; k < p_projectile.getState().length; k++){
-				p_projectile.projectileColision(enemy1, currentTime, k);
-				p_projectile.projectileColision(enemy2, currentTime, k);
-				p_projectile.projectileColision(enemy3, currentTime, k);
+				p_projectile.colision(enemy1, currentTime, k);
+				p_projectile.colision(enemy2, currentTime, k);
+				p_projectile.colision(enemy3, currentTime, k);
 			}
 
             /* Atualizações de estados */
@@ -217,7 +217,6 @@ public class Main {
 			for(int i = 0; i < enemy2.getState().length; i++){
 				if(enemy2.getState()[i] == EXPLODING){
 					if(currentTime > enemy2.getExplosion_end()[i]){
-
 						enemy2.setState(INACTIVE, i);
 					}
 				}
@@ -225,7 +224,6 @@ public class Main {
 				if(enemy2.getState()[i] == ACTIVE){
 					/* verificando se inimigo saiu da tela */
 					if(	enemy2.getX()[i] < -10 || enemy2.getX()[i] > GameLib.WIDTH + 10 ) {
-
 						enemy2.setState(INACTIVE, i);
 					}
 					else {
@@ -289,7 +287,7 @@ public class Main {
 
 				if(enemy3.getState()[i] == REVIVING){
 					if(currentTime > enemy3.getExplosion_end()[i]){
-
+						enemy3.setRadius(enemy3.getMax_radius()/1.5);
 						enemy3.setState(ACTIVE, i);
 					}
 				}
@@ -300,6 +298,7 @@ public class Main {
 
 						enemy3.setState(INACTIVE, i);
 						enemy3.setHealth(enemy3.getMaxHealth(), i);
+						enemy3.setRadius(enemy3.getMax_radius());
 					}
 				}
 
@@ -330,26 +329,10 @@ public class Main {
 					}
 				}
 			}
-			
-			/* verificando se novos inimigos (tipo 1) devem ser "lançados" */
-			
-			if(currentTime > enemy1.getNextEnemy()){
-				
-				int free = findFreeIndex(enemy1.getState());
-								
-				if(free < enemy1.getState().length){
 
-					enemy1.setX(Math.random() * (GameLib.WIDTH - 20.0) + 10.0,free);
-					enemy1.setY(-10.0,free);
-					enemy1.setV(0.20 + Math.random() * 0.15, free);
-					enemy1.setAngle(3 * Math.PI / 2, free);
-					enemy1.setRV(0, free);
-					enemy1.setState(ACTIVE, free);
-					enemy1.setNextShoot(currentTime+500, free);
-					enemy1.setNextEnemy(currentTime+500);
-				}
-			}
-			
+			/* verificando se novos inimigos (tipo 1) devem ser "lançados" */
+			enemy1.newEnemy(currentTime, findFreeIndex(enemy1.getState()), 500, 500, 0);
+
 			/* verificando se novos inimigos (tipo 2) devem ser "lançados" */
 			
 			if(currentTime > enemy2.getNextEnemy()){
@@ -380,51 +363,11 @@ public class Main {
 				}
 			}
 
-			/* verificando se novos inimigos (tipo 1) devem ser "lançados" */
+			/* verificando se novos inimigos (tipo 3) devem ser "lançados" */
+			enemy3.newEnemy(currentTime, findFreeIndex(enemy3.getState()), 500, 4000, 2000);
 
-			if(currentTime > enemy3.getNextEnemy()){
-
-				int free = findFreeIndex(enemy3.getState());
-
-				if(free < enemy3.getState().length){
-
-					enemy3.setX(Math.random() * (GameLib.WIDTH - 20.0) + 10.0,free);
-					enemy3.setY(-10.0,free);
-					enemy3.setV(0.20 + Math.random() * 0.15, free);
-					enemy3.setAngle(3 * Math.PI / 2, free);
-					enemy3.setRV(0, free);
-					enemy3.setState(ACTIVE, free);
-					enemy3.setNextShoot(currentTime+500, free);
-					enemy3.setNextEnemy((long) (currentTime + 4000 + Math.random() * 2000));
-				}
-			}
-			
 			/* Verificando mudanca de estado do player */
-
-			if(player.getState() == INACTIVE){
-
-				if(currentTime > player.getInvinc()){
-
-					player.setState(ACTIVE);
-				}
-			}
-
-			else if(player.getState() == EXPLODING){
-				
-				if(currentTime > player.getExplosion_end()){
-
-					player.setState(REVIVING);
-					player.setInvinc(currentTime+600);
-				}
-			}
-
-			else if(player.getState() == REVIVING){
-
-				if(currentTime > player.getInvinc()){
-
-					player.setState(ACTIVE);
-				}
-			}
+			player.stateUpdate(currentTime);
 
             /* Verificando entrada do usuário (teclado) */
 
@@ -595,7 +538,6 @@ public class Main {
 			for(int i = 0; i < enemy3.getState().length; i++){
 
 				if(enemy3.getState()[i] == EXPLODING){
-
 					double alpha = (currentTime - enemy3.getExplosion_start()[i]) / (enemy3.getExplosion_end()[i] - enemy3.getExplosion_start()[i]);
 					GameLib.drawExplosion(enemy3.getX()[i], enemy3.getY()[i], alpha);
 				}
@@ -606,7 +548,6 @@ public class Main {
 				}
 
 				if(enemy3.getState()[i] == ACTIVE){
-
 					GameLib.setColor(Color.YELLOW);
 					GameLib.drawCircle(enemy3.getX()[i], enemy3.getY()[i], enemy3.getRadius());
 				}
@@ -631,9 +572,6 @@ public class Main {
 				GameLib.drawDiamond(GameLib.WIDTH - 40, GameLib.HEIGHT - 30, 11);
 			}
 
-
-
-			
 			/* chamama a display() da classe GameLib atualiza o desenho exibido pela interface do jogo. */
 			
 			GameLib.display();

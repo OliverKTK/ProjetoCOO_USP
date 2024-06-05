@@ -47,6 +47,27 @@ public class Player {
         }
     }
 
+    public void stateUpdate(long currentTime){
+        if(getState() == 0){
+            if(currentTime > getInvinc()){
+                setState(1);
+            }
+        }
+
+        else if(getState() == 2){
+            if(currentTime > getExplosion_end()){
+                setState(3);
+                setInvinc(currentTime+600);
+            }
+        }
+
+        else if(getState() == 3){
+            if(currentTime > getInvinc()){
+                setState(1);
+            }
+        }
+    }
+
 
     public int getState() {
         return state;
