@@ -84,7 +84,7 @@ public class Main {
 
 		/* variáveis dos projéteis lançados pelos inimigos (tanto tipo 1, quanto tipo 2) */
 		EnemyProjectile e_projectile = new EnemyProjectile(200, 2);
-		EnemyProjectile e3_projectile = new EnemyProjectile(100, 2);
+		EnemyProjectile e3_projectile = new EnemyProjectile(100, 12);
 
 		/* estrelas que formam o fundo de primeiro plano */
 		Background background1 = new Background(20, 0.07, 0.0);
@@ -541,7 +541,7 @@ public class Main {
 							e3_projectile.setVY(Math.sin(enemy3.getAngle()[i]) * 0.45 * (-1.0),free);
 							e3_projectile.setState(1, free);
 
-							enemy3.setNextShoot((long) (currentTime + 300 + Math.random() * 500), i);
+							enemy3.setNextShoot((long) (currentTime + 1500 + Math.random() * 600), i);
 
 						}
 					}
