@@ -84,7 +84,7 @@ public class Main {
 
 		/* variáveis dos inimigos tipo 3 */
 		Enemy3 enemy3 = new Enemy3(10, 7, currentTime+10000, MAX_ENEMY_HEALTH);
-		EnemyProjectile e3_projectile = new EnemyProjectile(100, 12);
+		EnemyProjectile e3_projectile = new EnemyProjectile(100, 18);
 
 		/* estrelas que formam o fundo de primeiro plano */
 		Background background1 = new Background(20, 0.07, 0.0);
@@ -312,14 +312,16 @@ public class Main {
 
 					if(currentTime > enemy3.getNextShoot()[i] && enemy3.getY()[i] < player.getY()){
 
+						double co = player.getX() - enemy3.getX()[i];
+						double ca = player.getY() - enemy3.getY()[i];
+						double hip = Math.sqrt(co*co + ca*ca);
 						int free = findFreeIndex(e3_projectile.getState());
-
 						if(free < e3_projectile.getState().length){
 
 							e3_projectile.setX(enemy3.getX()[i], free);
 							e3_projectile.setY(enemy3.getY()[i], free);
-							e3_projectile.setVX(Math.cos(enemy3.getAngle()[i]) * 0.45,free);
-							e3_projectile.setVY(Math.sin(enemy3.getAngle()[i]) * 0.45 * (-1.0),free);
+							e3_projectile.setVX((co/hip) *0.4,free);
+							e3_projectile.setVY((ca/hip) *0.4,free);
 							e3_projectile.setState(1, free);
 
 							enemy3.setNextShoot((long) (currentTime + 1500 + Math.random() * 600), i);
