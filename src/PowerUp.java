@@ -8,10 +8,10 @@ public class PowerUp {
     private int active = 0;
     private long nextPow;
 
-    public PowerUp(int type, double radius, double V, long nextPow, long currentTime) {
+    public PowerUp(int type, double radius, long nextPow, long currentTime) {
         this.type = type;
         this.radius = radius;
-        this.V = V;
+        this.V = 0;
         this.nextPow = currentTime + nextPow;
     }
 
@@ -26,6 +26,7 @@ public class PowerUp {
             setY(10.0);
             setV(0.20 + Math.random() * 0.15);
             setState(1);
+            setActive(0);
             setNextPow((long) (currentTime + spawnOffset + Math.random() * random));
             System.out.println(getState());
         }

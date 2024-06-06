@@ -88,6 +88,7 @@ public class Main {
 
 		/* variaveis do powerup */
 		PowerUpShield shield = new PowerUpShield(10, 10000, currentTime);
+		PowerUpHealth heal = new PowerUpHealth(10, 10000, currentTime);
 
 		/* estrelas que formam o fundo de primeiro plano */
 		Background background1 = new Background(20, 0.07, 0.0);
@@ -108,6 +109,7 @@ public class Main {
 		e3_projectile.Initialize();
 
 		shield.Initialize();
+		heal.Initialize();
 
 		background1.Initialize(GameLib.WIDTH, GameLib.HEIGHT);
 		background2.Initialize(GameLib.WIDTH, GameLib.HEIGHT);
@@ -158,9 +160,12 @@ public class Main {
 				player.colision(enemy1, currentTime, MAX_LIFE);
 				player.colision(enemy2, currentTime, MAX_LIFE);
 				player.colision(enemy3, currentTime, MAX_LIFE);
+			}
 
+			if(player.getState() == ACTIVE || player.getState() == INACTIVE){
 				/* colisoes player - powerup */
 				player.pickPow(shield, currentTime, MAX_LIFE);
+				player.pickPow(heal, currentTime, MAX_LIFE);
 			}
 
 			/* colisões projeteis (player) - inimigos */
@@ -257,16 +262,32 @@ public class Main {
 
 			/* powerup */
 			shield.behavior(delta, currentTime, GameLib.HEIGHT);
+			heal.behavior(delta, currentTime, GameLib.HEIGHT);
 
 			/* verificando se novos inimigos devem ser "lançados" */
 			enemy1.newEnemy(currentTime, findFreeIndex(enemy1.getState()), 500, 500, 0);
 			enemy2.newEnemy(currentTime, findFreeIndex(enemy2.getState()), 3000, 3000);
 			enemy3.newEnemy(currentTime, findFreeIndex(enemy3.getState()), 500, 4000, 2000);
 
-			shield.newPow(currentTime, 10000, 5000);
+			if(player.getLife() != MAX_LIFE){
+				if(Math.random() > 0.5){
+					shield.newPow(currentTime, 15000, 7000);
+				}
+				heal.newPow(currentTime, 15000, 5000);
+			}
+			else{
+				shield.newPow(currentTime, 15000, 7000);
+			}
+
+
 
 			/* Verificando mudanca de estado do player */
-			player.stateUpdate(currentTime, shield);
+			player.stateUpdate(currentTime);
+			if(currentTime > player.getInvinc()){
+				shield.setActive(0);
+				heal.setActive(0);
+			}
+
 
             /* Verificando entrada do usuário (teclado) */
 
@@ -336,9 +357,15 @@ public class Main {
 			/* desenahndo os powerUps */
 
 			if(shield.getState() == ACTIVE) {
-				GameLib.setColor(Color.GREEN);
+				GameLib.setColor(Color.blue);
 				GameLib.drawCircle(shield.getX(), shield.getY(), shield.getRadius());
 				GameLib.drawDiamond(shield.getX(), shield.getY(), shield.getRadius() - 3);
+			}
+
+			if(heal.getState() == ACTIVE){
+				GameLib.setColor(Color.GREEN);
+				GameLib.drawDiamond(heal.getX(), heal.getY(), heal.getRadius());
+				GameLib.drawDiamond(heal.getX(), heal.getY(), heal.getRadius() - 6);
 			}
 
 			/* desenhando player */

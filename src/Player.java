@@ -11,6 +11,7 @@ public class Player {
     private int life;
     private long invinc = 0;
 
+
     public Player(double X, double Y, double baseSpeedXY, double radius, long nextShot, int life) {
         this.state = 1;
         this.X = X;
@@ -53,35 +54,40 @@ public class Player {
         double dist = Math.sqrt(dx * dx + dy * dy);
 
         if(dist < (getRadius() + pow.getRadius()) * 0.8 && pow.getState() == 1) {
-            if(pow instanceof PowerUpShield){
+            if(pow.getType() == 0){
                 setState(0);
                 pow.setActive(1);
                 pow.setState(0);
                 setInvinc(currentTime + 5000);
             }
+            else if(pow.getType() == 1){
+                if(getLife() < max_life) {
+                    setLife(getLife() + 1);
+                    pow.setActive(1);
+                    pow.setState(0);
+                    setInvinc(currentTime + 500);
+                }
+            }
         }
     }
 
-    public void stateUpdate(long currentTime, PowerUp pow){
+
+    public void stateUpdate(long currentTime){
         if(getState() == 0){
             if(currentTime > getInvinc()){
                 setState(1);
-                pow.setActive(0);
             }
         }
-
         else if(getState() == 2){
             if(currentTime > getExplosion_end()){
                 setState(3);
                 setInvinc(currentTime+600);
-                pow.setActive(0);
             }
         }
 
         else if(getState() == 3){
             if(currentTime > getInvinc()){
                 setState(1);
-                pow.setActive(0);
             }
         }
     }
