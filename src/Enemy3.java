@@ -1,4 +1,4 @@
-public class Enemy3 extends BaseIEnemy implements IEnemyBehavior {
+public class Enemy3 extends BaseEnemy implements IEnemyBehavior {
     private int[] health;
     private int max_health;
     private double max_radius;

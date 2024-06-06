@@ -1,4 +1,4 @@
-public class Enemy2 extends BaseIEnemy implements IEnemyBehavior {
+public class Enemy2 extends BaseEnemy implements IEnemyBehavior {
     private double spawnX;
     private int count;
 

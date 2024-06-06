@@ -19,7 +19,7 @@ public class PlayerProjectile {
         }
     }
 
-    public void colision(BaseIEnemy enemy, long currentTime, int k){
+    public void colision(BaseEnemy enemy, long currentTime, int k){
         for(int i = 0; i < enemy.getState().length; i++) {
 
             if (enemy.getState()[i] == 1) {

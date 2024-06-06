@@ -1,4 +1,4 @@
-public class BaseIEnemy implements IEntity, IEnemyBehavior {
+public class BaseEnemy implements IEntity, IEnemyBehavior {
     private int [] state;
     private double [] X;
     private double [] Y;
@@ -11,7 +11,7 @@ public class BaseIEnemy implements IEntity, IEnemyBehavior {
     private long nextEnemy;
     private long [] nextShoot;
 
-    public BaseIEnemy(int quantity, double radius, long nextEnemy){
+    public BaseEnemy(int quantity, double radius, long nextEnemy){
         this.state = new int[quantity];
         this.X = new double[quantity];
         this.Y = new double[quantity];
@@ -93,6 +93,7 @@ public class BaseIEnemy implements IEntity, IEnemyBehavior {
     }
 
     public double[] getY(){
+
         return Y;
     }
     public void setY(double Y, int i) {
@@ -100,9 +101,11 @@ public class BaseIEnemy implements IEntity, IEnemyBehavior {
     }
 
     public double[] getV(){
+
         return V;
     }
     public void setV(double V, int i) {
+
         this.V[i] = V;
     }
 

@@ -75,7 +75,7 @@ public class Main {
 		PlayerProjectile p_projectile = new PlayerProjectile(10);
 
 		/* variáveis dos inimigos tipo 1 */
-		BaseIEnemy enemy1 = new BaseIEnemy(10,9, currentTime+2000);
+		BaseEnemy enemy1 = new BaseEnemy(10,9, currentTime+2000);
 		EnemyProjectile e1_projectile = new EnemyProjectile(100, 2);
 
 		/* variáveis dos inimigos tipo 2 */
@@ -85,6 +85,9 @@ public class Main {
 		/* variáveis dos inimigos tipo 3 */
 		Enemy3 enemy3 = new Enemy3(10, 10, currentTime+10000, MAX_ENEMY_HEALTH);
 		EnemyProjectile e3_projectile = new EnemyProjectile(100, 18);
+
+		/* variaveis do powerup */
+		PowerUpShield shield = new PowerUpShield(10, 10000, currentTime);
 
 		/* estrelas que formam o fundo de primeiro plano */
 		Background background1 = new Background(20, 0.07, 0.0);
@@ -103,6 +106,8 @@ public class Main {
 
 		enemy3.Initialize();
 		e3_projectile.Initialize();
+
+		shield.Initialize();
 
 		background1.Initialize(GameLib.WIDTH, GameLib.HEIGHT);
 		background2.Initialize(GameLib.WIDTH, GameLib.HEIGHT);
@@ -154,6 +159,8 @@ public class Main {
 				player.colision(enemy2, currentTime, MAX_LIFE);
 				player.colision(enemy3, currentTime, MAX_LIFE);
 
+				/* colisoes player - powerup */
+				player.pickPow(shield, currentTime, MAX_LIFE);
 			}
 
 			/* colisões projeteis (player) - inimigos */
@@ -248,19 +255,24 @@ public class Main {
 			/* inimigos tipo 3 */
 			enemy3.behavior(player,e3_projectile, delta, findFreeIndex(e3_projectile.getState()), currentTime, GameLib.HEIGHT, GameLib.WIDTH);
 
+			/* powerup */
+			shield.behavior(delta, currentTime, GameLib.HEIGHT);
+
 			/* verificando se novos inimigos devem ser "lançados" */
 			enemy1.newEnemy(currentTime, findFreeIndex(enemy1.getState()), 500, 500, 0);
 			enemy2.newEnemy(currentTime, findFreeIndex(enemy2.getState()), 3000, 3000);
 			enemy3.newEnemy(currentTime, findFreeIndex(enemy3.getState()), 500, 4000, 2000);
 
+			shield.newPow(currentTime, 10000, 5000);
+
 			/* Verificando mudanca de estado do player */
-			player.stateUpdate(currentTime);
+			player.stateUpdate(currentTime, shield);
 
             /* Verificando entrada do usuário (teclado) */
 
             if(player.getState() != EXPLODING){
 				double alpha = 1;
-				if(player.getState() == INACTIVE){
+				if(player.getState() == INACTIVE && shield.getActive() == 0){
 					alpha = 1.85;
 				}
 				
@@ -320,7 +332,15 @@ public class Main {
 				
 				GameLib.fillRect(background1.getX()[i], (background1.getY()[i] + background1.getCount()) % GameLib.HEIGHT, 3, 3);
 			}
-						
+
+			/* desenahndo os powerUps */
+
+			if(shield.getState() == ACTIVE) {
+				GameLib.setColor(Color.GREEN);
+				GameLib.drawCircle(shield.getX(), shield.getY(), shield.getRadius());
+				GameLib.drawDiamond(shield.getX(), shield.getY(), shield.getRadius() - 3);
+			}
+
 			/* desenhando player */
 
 
@@ -335,8 +355,15 @@ public class Main {
 				GameLib.drawPlayer(player.getX(), player.getY(), player.getRadius());
 			}
 			else if(player.getState() == INACTIVE){
-				GameLib.setColor(Color.ORANGE);
-				GameLib.drawPlayer(player.getX(), player.getY(), player.getRadius());
+				if(shield.getActive() == 1){
+					GameLib.setColor(Color.BLUE);
+					GameLib.drawPlayer(player.getX(), player.getY(), player.getRadius());
+					GameLib.drawCircle(player.getX(), player.getY(), player.getRadius()+5);
+				}
+				else{
+					GameLib.setColor(Color.ORANGE);
+					GameLib.drawPlayer(player.getX(), player.getY(), player.getRadius());
+				}
 			}
 			else if(player.getState() == REVIVING){
 				GameLib.setColor(Color.GREEN);
@@ -385,7 +412,7 @@ public class Main {
 					GameLib.drawCircle(e3_projectile.getX()[i], e3_projectile.getY()[i], e3_projectile.getRadius());
 				}
 			}
-			
+
 			/* desenhando inimigos (tipo 1) */
 			
 			for(int i = 0; i < enemy1.getState().length; i++){
@@ -438,9 +465,8 @@ public class Main {
 					GameLib.setColor(Color.YELLOW);
 					GameLib.drawCircle(enemy3.getX()[i], enemy3.getY()[i], enemy3.getRadius());
 				}
-
-
 			}
+
 			/* desenhando o número de vidas do player */
 
 			if(player.getLife() == MAX_LIFE){

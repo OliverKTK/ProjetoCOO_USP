@@ -29,8 +29,8 @@ public class Player {
             double dy = entity.getY()[i] - getY();
             double dist = Math.sqrt(dx * dx + dy * dy);
 
-            if (entity instanceof BaseIEnemy || entity instanceof PlayerProjectile){
-                if(dist < (getRadius() + entity.getRadius()) * 0.8) {
+            if(dist < (getRadius() + entity.getRadius()) * 0.8) {
+                if (entity instanceof BaseEnemy || entity instanceof PlayerProjectile){
                     if (getLife() > 0) {
                         setLife(getLife() - 1);
                         setState(0);
@@ -47,10 +47,26 @@ public class Player {
         }
     }
 
-    public void stateUpdate(long currentTime){
+    public void pickPow(PowerUp pow, long currentTime, int max_life){
+        double dx = pow.getX() - getX();
+        double dy = pow.getY() - getY();
+        double dist = Math.sqrt(dx * dx + dy * dy);
+
+        if(dist < (getRadius() + pow.getRadius()) * 0.8 && pow.getState() == 1) {
+            if(pow instanceof PowerUpShield){
+                setState(0);
+                pow.setActive(1);
+                pow.setState(0);
+                setInvinc(currentTime + 5000);
+            }
+        }
+    }
+
+    public void stateUpdate(long currentTime, PowerUp pow){
         if(getState() == 0){
             if(currentTime > getInvinc()){
                 setState(1);
+                pow.setActive(0);
             }
         }
 
@@ -58,12 +74,14 @@ public class Player {
             if(currentTime > getExplosion_end()){
                 setState(3);
                 setInvinc(currentTime+600);
+                pow.setActive(0);
             }
         }
 
         else if(getState() == 3){
             if(currentTime > getInvinc()){
                 setState(1);
+                pow.setActive(0);
             }
         }
     }
