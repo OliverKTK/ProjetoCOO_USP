@@ -88,7 +88,7 @@ public class Main {
 
 		/* variaveis do powerup */
 		PowerUpShield shield = new PowerUpShield(10, 10000, currentTime);
-		PowerUpHealth heal = new PowerUpHealth(10, 10000, currentTime);
+		PowerUpHealth heal = new PowerUpHealth(10, 13000, currentTime);
 
 		/* estrelas que formam o fundo de primeiro plano */
 		Background background1 = new Background(20, 0.07, 0.0);
