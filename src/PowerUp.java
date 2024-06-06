@@ -28,7 +28,6 @@ public class PowerUp {
             setState(1);
             setActive(0);
             setNextPow((long) (currentTime + spawnOffset + Math.random() * random));
-            System.out.println(getState());
         }
     }
 
