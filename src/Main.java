@@ -182,65 +182,7 @@ public class Main {
 
 			/* comportamento dos inimigos */
 			enemy1.behavior(player, e1_projectile, delta, findFreeIndex(e1_projectile.getState()), currentTime, GameLib.HEIGHT, GameLib.WIDTH);
-
-			for (int i = 0; i < enemy2.getState().size(); i++) {
-				if (enemy2.getState().get(i) == EXPLODING) {
-					if (currentTime > enemy2.getExplosion_end().get(i)) {
-						enemy2.setState(INACTIVE, i);
-					}
-				}
-
-				if (enemy2.getState().get(i) == ACTIVE) {
-					if (enemy2.getX().get(i) < -10 || enemy2.getX().get(i) > GameLib.WIDTH + 10) {
-						enemy2.setState(INACTIVE, i);
-					} else {
-						boolean shootNow = false;
-						double previousY = enemy2.getY().get(i);
-
-						enemy2.setX(enemy2.getX().get(i) + enemy2.getV().get(i) * Math.cos(enemy2.getAngle().get(i)) * delta, i);
-						enemy2.setY(enemy2.getY().get(i) + enemy2.getV().get(i) * Math.sin(enemy2.getAngle().get(i)) * delta * (-1.0), i);
-						enemy2.setAngle(enemy2.getAngle().get(i) + enemy2.getRV().get(i) * delta, i);
-
-						double threshold = GameLib.HEIGHT * 0.30;
-						if (previousY < threshold && enemy2.getY().get(i) >= threshold) {
-							if (enemy2.getX().get(i) < (double) GameLib.WIDTH / 2) enemy2.setRV(0.003, i);
-							else enemy2.setRV(-0.003, i);
-						}
-
-						if (enemy2.getRV().get(i) > 0 && Math.abs(enemy2.getAngle().get(i) - 3 * Math.PI) < 0.05) {
-							enemy2.setRV(0, i);
-							enemy2.setAngle(3 * Math.PI, i);
-							shootNow = true;
-						}
-
-						if (enemy2.getRV().get(i) < 0 && Math.abs(enemy2.getAngle().get(i)) < 0.05) {
-							enemy2.setRV(0.0, i);
-							enemy2.setAngle(0, i);
-							shootNow = true;
-						}
-
-						if (shootNow) {
-							double[] angles = {Math.PI / 2 + Math.PI / 8, Math.PI / 2, Math.PI / 2 - Math.PI / 8};
-							int[] freeArray = findFreeIndex(e2_projectile.getState(), angles.length);
-							for (int k = 0; k < freeArray.length; k++) {
-								int free = freeArray[k];
-								if (free < e2_projectile.getState().size()) {
-									double a = angles[k] + Math.random() * Math.PI / 6 - Math.PI / 12;
-									double vx = Math.cos(a);
-									double vy = Math.sin(a);
-
-									e2_projectile.setX(enemy2.getX().get(i), free);
-									e2_projectile.setY(enemy2.getY().get(i), free);
-									e2_projectile.setVX(vx * 0.30, free);
-									e2_projectile.setVY(vy * 0.30, free);
-									e2_projectile.setState(1, free);
-								}
-							}
-						}
-					}
-				}
-			}
-
+			enemy2.behavior(player, e2_projectile, delta, findFreeIndex(e2_projectile.getState(), 2), currentTime, GameLib.HEIGHT, GameLib.WIDTH);
 			enemy3.behavior(player, e3_projectile, delta, findFreeIndex(e3_projectile.getState()), currentTime, GameLib.HEIGHT, GameLib.WIDTH);
 
 			/* comportamento dos power ups */
