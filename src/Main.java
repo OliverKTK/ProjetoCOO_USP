@@ -111,7 +111,7 @@ public class Main {
 		/*                                                                                               */
 		while (running) {
 
-			/* Checa se o jogo está no estado de game over */
+			/* Verifica se o jogo está no estado de game over */
 			if (gameOver) {
 				gameOverScreen.draw();
 				if (GameLib.iskeyPressed(GameLib.KEY_ESCAPE)) {
@@ -259,6 +259,7 @@ public class Main {
 				GameLib.fillRect(background1.getX().get(i), (background1.getY().get(i) + background1.getCount()) % GameLib.HEIGHT, 3, 3);
 			}
 
+			/* desenhando powerups */
 			if (shield.getState() == ACTIVE) {
 				GameLib.setColor(Color.blue);
 				GameLib.drawCircle(shield.getX(), shield.getY(), shield.getRadius());
@@ -271,6 +272,7 @@ public class Main {
 				GameLib.drawDiamond(heal.getX(), heal.getY(), heal.getRadius() - 6);
 			}
 
+			/* desenhando player (estados/nave) */
 			if (player.getState() == EXPLODING) {
 				double alpha = (currentTime - player.getExplosion_start()) / (player.getExplosion_end() - player.getExplosion_start());
 				GameLib.drawExplosion(player.getX(), player.getY(), alpha);
@@ -300,6 +302,7 @@ public class Main {
 				}
 			}
 
+			/* desenha projetil */
 			for (int i = 0; i < e1_projectile.getState().size(); i++) {
 				if (e1_projectile.getState().get(i) == ACTIVE) {
 					GameLib.setColor(Color.RED);
@@ -321,6 +324,7 @@ public class Main {
 				}
 			}
 
+			/* desenha inimigos */
 			for (int i = 0; i < enemy1.getState().size(); i++) {
 				if (enemy1.getState().get(i) == EXPLODING) {
 					double alpha = (currentTime - enemy1.getExplosion_start().get(i)) / (enemy1.getExplosion_end().get(i) - enemy1.getExplosion_start().get(i));
@@ -362,6 +366,7 @@ public class Main {
 				}
 			}
 
+			/* desenha HUD */
 			if (player.getLives() == 3) {
 				GameLib.setColor(Color.green);
 				GameLib.drawDiamond(GameLib.WIDTH - 30, GameLib.HEIGHT - 30, 7);
