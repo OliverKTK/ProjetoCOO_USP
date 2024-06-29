@@ -4,13 +4,11 @@ import java.util.List;
 public class Enemy3 extends BaseEnemy implements IEnemyBehavior {
     private List<Integer> health;
     private int max_health;
-    private double max_radius;
 
     public Enemy3(int quantity, double radius, long nextEnemy, int health) {
         super(quantity, radius, nextEnemy);
         this.health = new ArrayList<>(quantity);
         this.max_health = health;
-        this.max_radius = radius;
         for (int i = 0; i < quantity; i++) {
             this.health.add(health);
         }
@@ -69,7 +67,4 @@ public class Enemy3 extends BaseEnemy implements IEnemyBehavior {
         return max_health;
     }
 
-    public double getMax_radius() {
-        return max_radius;
-    }
 }

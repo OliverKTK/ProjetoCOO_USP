@@ -66,7 +66,7 @@ public class Player {
         }
     }
 
-    public void pickPow(PowerUp pow, long currentTime, int max_life) {
+    public void pickPow(PowerUp pow, long currentTime) {
         double dx = pow.getX() - getX();
         double dy = pow.getY() - getY();
         double dist = Math.sqrt(dx * dx + dy * dy);

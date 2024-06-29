@@ -72,7 +72,7 @@ public class Main {
 		EnemyProjectile e3_projectile = new EnemyProjectile(100, 18);
 
 		PowerUpShield shield = new PowerUpShield(10, 10000, currentTime);
-		PowerUpHealth heal = new PowerUpHealth(10, 13000, currentTime);
+		PowerUpHealth heal = new PowerUpHealth( 13000, currentTime);
 
 		Background background1 = new Background(20, 0.07, 0.0);
 		Background background2 = new Background(50, 0.045, 0.0);
@@ -93,7 +93,6 @@ public class Main {
 		/* iniciado interface gráfica */
 		GameLib.initGraphics();
 
-		/*************************************************************************************************/
 		/*                                                                                               */
 		/* Main loop do jogo                                                                             */
 		/*                                                                                               */
@@ -110,7 +109,6 @@ public class Main {
 		/*                                                                                               */
 		/* 5) Espera um período de tempo (de modo que delta seja aproximadamente sempre constante).      */
 		/*                                                                                               */
-		/*************************************************************************************************/
 		while (running) {
 
 			/* Checa se o jogo está no estado de game over */
@@ -148,9 +146,7 @@ public class Main {
 			/* Já a variável "currentTime" nos dá o timestamp atual.  */
 			currentTime = System.currentTimeMillis();
 
-			/***************************/
 			/* Verificação de colisões */
-			/***************************/
 			if (player.getState() == ACTIVE) {
 				player.colision(e1_projectile, currentTime, MAX_LIFE);
 				player.colision(e2_projectile, currentTime, MAX_LIFE);
@@ -163,8 +159,8 @@ public class Main {
 
 			/* coleta do powerup */
 			if (player.getState() == ACTIVE || player.getState() == INACTIVE) {
-				player.pickPow(shield, currentTime, MAX_LIFE);
-				player.pickPow(heal, currentTime, MAX_LIFE); // Aqui o player pega o power-up de vida
+				player.pickPow(shield, currentTime);
+				player.pickPow(heal, currentTime); // Aqui o player pega o power-up de vida
 			}
 
 			/* colisões projeteis (player) */
@@ -218,10 +214,8 @@ public class Main {
 					alpha = 1.85;
 				}
 
-				/********************************************/
-				/* Verificando entrada do usuário (teclado) */
-				/********************************************/
 
+				/* Verificando entrada do usuário (teclado) */
 				if (GameLib.iskeyPressed(GameLib.KEY_UP)) player.setY(player.getY() - delta * player.getVY() / alpha);
 				if (GameLib.iskeyPressed(GameLib.KEY_DOWN)) player.setY(player.getY() + delta * player.getVY() / alpha);
 				if (GameLib.iskeyPressed(GameLib.KEY_LEFT)) player.setX(player.getX() - delta * player.getVX() / alpha);
@@ -251,9 +245,8 @@ public class Main {
 			if (player.getY() >= GameLib.HEIGHT) player.setY(GameLib.HEIGHT - 1);
 
 
-			/*******************/
+
 			/* Desenho da cena */
-			/*******************/
 			GameLib.setColor(Color.DARK_GRAY);
 			background2.setCount(background2.getCount() + background2.getSpeed() * delta);
 			for (int i = 0; i < background2.getX().size(); i++) {
