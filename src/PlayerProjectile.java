@@ -1,37 +1,45 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlayerProjectile {
-    private int [] state;
-    private double [] X;
-    private double [] Y;
-    private double [] VX;
-    private double [] VY;
+    private List<Integer> state;
+    private List<Double> X;
+    private List<Double> Y;
+    private List<Double> VX;
+    private List<Double> VY;
 
-    public PlayerProjectile(int qunatity) {
-        this.state = new int[qunatity];
-        this.X = new double[qunatity];
-        this.Y = new double[qunatity];
-        this.VX = new double[qunatity];
-        this.VY = new double[qunatity];
-    }
-
-    public void Initialize() {
-        for (int i = 0; i < state.length; i++) {
-            this.state[i] = 0;
+    public PlayerProjectile(int quantity) {
+        this.state = new ArrayList<>(quantity);
+        this.X = new ArrayList<>(quantity);
+        this.Y = new ArrayList<>(quantity);
+        this.VX = new ArrayList<>(quantity);
+        this.VY = new ArrayList<>(quantity);
+        for (int i = 0; i < quantity; i++) {
+            this.state.add(0);
+            this.X.add(0.0);
+            this.Y.add(0.0);
+            this.VX.add(0.0);
+            this.VY.add(0.0);
         }
     }
 
-    public void colision(BaseEnemy enemy, long currentTime, int k){
-        for(int i = 0; i < enemy.getState().length; i++) {
+    public void Initialize() {
+        for (int i = 0; i < state.size(); i++) {
+            this.state.set(i, 0);
+        }
+    }
 
-            if (enemy.getState()[i] == 1) {
-
-                double dx = enemy.getX()[i] - getX()[k];
-                double dy = enemy.getY()[i] - getY()[k];
+    public void colision(BaseEnemy enemy, long currentTime, int k) {
+        for (int i = 0; i < enemy.getState().size(); i++) {
+            if (enemy.getState().get(i) == 1) {
+                double dx = enemy.getX().get(i) - getX().get(k);
+                double dy = enemy.getY().get(i) - getY().get(k);
                 double dist = Math.sqrt(dx * dx + dy * dy);
 
-                if (dist < enemy.getRadius()){
+                if (dist < enemy.getRadius()) {
                     if (enemy instanceof Enemy3 enemy3) {
-                        if (enemy3.getHealth()[i] > 0) {
-                            enemy3.setHealth(enemy3.getHealth()[i] - 1, i);
+                        if (enemy3.getHealth().get(i) > 0) {
+                            enemy3.setHealth(enemy3.getHealth().get(i) - 1, i);
                             enemy3.setState(3, i);
                             enemy3.setExplosion_end(currentTime + 300, i);
                         } else {
@@ -39,8 +47,7 @@ public class PlayerProjectile {
                             enemy3.setExplosion_start(currentTime, i);
                             enemy3.setExplosion_end(currentTime + 500, i);
                         }
-                    }
-                    else  {
+                    } else {
                         enemy.setState(2, i);
                         enemy.setExplosion_start(currentTime, i);
                         enemy.setExplosion_end(currentTime + 500, i);
@@ -50,57 +57,51 @@ public class PlayerProjectile {
         }
     }
 
-    public void outOfBounds(int height, long delta){
-        for(int i = 0; i < getState().length; i++){
-
-            if(getState()[i] == 1){
-
-                /* verificando se projétil saiu da tela */
-                if(getY()[i] < 0 || getY()[i] > height) {
-
+    public void outOfBounds(int height, long delta) {
+        for (int i = 0; i < getState().size(); i++) {
+            if (getState().get(i) == 1) {
+                if (getY().get(i) < 0 || getY().get(i) > height) {
                     setState(0, i);
-                }
-                else {
-
-                    setX(getX()[i]+ getVX()[i] *delta, i);
-                    setY(getY()[i]+ getVY()[i] *delta, i);
+                } else {
+                    setX(getX().get(i) + getVX().get(i) * delta, i);
+                    setY(getY().get(i) + getVY().get(i) * delta, i);
                 }
             }
         }
     }
 
-    public int[] getState() {
+    public List<Integer> getState() {
         return state;
     }
     public void setState(int state, int i) {
-        this.state[i] = state;
+        this.state.set(i, state);
     }
 
-    public double[] getX() {
+    public List<Double> getX() {
         return X;
     }
     public void setX(double X, int i) {
-        this.X[i] = X;
+        this.X.set(i, X);
     }
 
-    public double[] getY() {
+    public List<Double> getY() {
         return Y;
     }
     public void setY(double Y, int i) {
-        this.Y[i] = Y;
+        this.Y.set(i, Y);
     }
 
-    public double[] getVX() {
+    public List<Double> getVX() {
         return VX;
     }
     public void setVX(double VX, int i) {
-        this.VX[i] = VX;
+        this.VX.set(i, VX);
     }
 
-    public double[] getVY() {
+    public List<Double> getVY() {
         return VY;
     }
     public void setVY(double VY, int i) {
-        this.VY[i] = VY;
+        this.VY.set(i, VY);
     }
 }

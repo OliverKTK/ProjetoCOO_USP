@@ -13,15 +13,16 @@ public class PowerUp {
         this.radius = radius;
         this.V = 0;
         this.nextPow = currentTime + nextPow;
+        this.state = 0;
     }
 
-    public void Initialize(){
+    public void Initialize() {
         this.state = 0;
         this.active = 0;
     }
 
-    public void newPow(long currentTime, int spawnOffset, int random){
-        if(currentTime > getNextPow()){
+    public void newPow(long currentTime, int spawnOffset, int random) {
+        if (currentTime > getNextPow()) {
             setX(Math.random() * (GameLib.WIDTH - 20.0) + 10.0);
             setY(10.0);
             setV(0.20 + Math.random() * 0.15);
@@ -31,66 +32,63 @@ public class PowerUp {
         }
     }
 
-    public void behavior(long delta,long currentTime, int height){
-        if(getState() == 1){
-            if(getY() > height + 10){
+    public void behavior(long delta, long currentTime, int height) {
+        if (getState() == 1) {
+            if (getY() > height + 10) {
                 setState(0);
-            }
-            else{
-                setY(getY()+ getV() * Math.random() * delta * 2);
+            } else {
+                setY(getY() + getV() * Math.random() * delta * 2);
             }
         }
     }
 
-
-    public int getState(){
+    public int getState() {
         return state;
     }
     public void setState(int state) {
         this.state = state;
     }
 
-    public double getX(){
+    public double getX() {
         return X;
     }
     public void setX(double X) {
         this.X = X;
     }
 
-    public double getY(){
+    public double getY() {
         return Y;
     }
     public void setY(double Y) {
         this.Y = Y;
     }
 
-    public double getRadius(){
+    public double getRadius() {
         return radius;
     }
 
-    public double getV(){
+    public double getV() {
         return V;
     }
     public void setV(double V) {
         this.V = V;
     }
 
-    public int getType(){
+    public int getType() {
         return type;
     }
 
-    public int getActive(){
+    public int getActive() {
         return active;
     }
-    public void setActive(int active){
+    public void setActive(int active) {
         this.active = active;
     }
 
-    public long getNextPow(){
+    public long getNextPow() {
         return nextPow;
     }
-    public void setNextPow(long nextPow){
+    public void setNextPow(long nextPow) {
         this.nextPow = nextPow;
     }
-
 }

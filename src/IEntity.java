@@ -1,7 +1,8 @@
-public interface IEntity {
+import java.util.List;
 
-    int [] getState();
-    double [] getX();
-    double [] getY();
+public interface IEntity {
+    List<Integer> getState();
+    List<Double> getX();
+    List<Double> getY();
     double getRadius();
 }

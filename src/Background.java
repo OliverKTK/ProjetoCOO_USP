@@ -1,36 +1,42 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Background {
-    private double [] X;
-    private double [] Y;
+    private List<Double> X;
+    private List<Double> Y;
     private double speed;
     private double count;
 
-    public Background(int size, double speed, double count){
-        this.X = new double[size];
-        this.Y = new double[size];
+    public Background(int size, double speed, double count) {
+        this.X = new ArrayList<>(size);
+        this.Y = new ArrayList<>(size);
         this.speed = speed;
         this.count = count;
-    }
-
-    public void Initialize(double width, double height){
-        for(int i = 0; i < X.length; i++){
-            this.X[i] = Math.random() * width;
-            this.Y[i] = Math.random() * height;
+        for (int i = 0; i < size; i++) {
+            this.X.add(0.0);
+            this.Y.add(0.0);
         }
     }
 
+    public void Initialize(double width, double height) {
+        for (int i = 0; i < X.size(); i++) {
+            this.X.set(i, Math.random() * width);
+            this.Y.set(i, Math.random() * height);
+        }
+    }
 
-    public double[] getX() {
+    public List<Double> getX() {
         return X;
     }
     public void setX(double x, int i) {
-        this.X[i] = x;
+        this.X.set(i, x);
     }
 
-    public double[] getY() {
+    public List<Double> getY() {
         return Y;
     }
     public void setY(double y, int i) {
-        this.Y[i] = y;
+        this.Y.set(i, y);
     }
 
     public double getSpeed() {
@@ -46,5 +52,4 @@ public class Background {
     public void setCount(double count) {
         this.count = count;
     }
-
 }
